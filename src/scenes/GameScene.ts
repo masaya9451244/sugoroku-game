@@ -133,9 +133,9 @@ export class GameScene extends Phaser.Scene {
     this.add.rectangle(PANEL_X - 10, 0, width - PANEL_X + 10, height, 0xfff9f0).setOrigin(0);
 
     this.createTopBar();
+    this.createDiceButton();
     this.createPlayerPanel();
     this.createCardSection();
-    this.createDiceButton();
     this.createSaveButton();
     this.createPawns();
     this.updateMapMarkers();

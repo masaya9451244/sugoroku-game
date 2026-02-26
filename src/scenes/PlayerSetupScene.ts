@@ -9,7 +9,9 @@ export class PlayerSetupScene extends Phaser.Scene {
   private totalYears = 10;
   private playerConfigs: PlayerConfig[] = [
     { name: 'プレイヤー1', type: 'human', difficulty: 'normal' },
-    { name: 'CPU', type: 'cpu', difficulty: 'normal' },
+    { name: 'CPU2', type: 'cpu', difficulty: 'normal' },
+    { name: 'CPU3', type: 'cpu', difficulty: 'normal' },
+    { name: 'CPU4', type: 'cpu', difficulty: 'normal' },
   ];
   private playerCount = 2;
 
