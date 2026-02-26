@@ -1,0 +1,470 @@
+[
+  {
+    "id": "monthly_01_new_year",
+    "type": "monthly",
+    "trigger": { "month": 1, "probability": 1.0 },
+    "name": "お正月",
+    "description": "新年あけましておめでとうございます！お年玉やお年賀で日本中がにぎわい、全員の収入が増えます。",
+    "effect": {
+      "type": "money_percent",
+      "value": 5,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_02_setsubun",
+    "type": "monthly",
+    "trigger": { "month": 2, "probability": 1.0 },
+    "name": "節分・豆まき",
+    "description": "鬼は外、福は内！節分で邪気を払い、今年の運気をアップ。物件の収益にボーナスがつきます。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 8,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_03_kakutei_shinkoku",
+    "type": "monthly",
+    "trigger": { "month": 3, "probability": 1.0 },
+    "name": "確定申告",
+    "description": "3月は確定申告の季節。税務署への申告が必要で、全員が資産の一部を税金として支払います。",
+    "effect": {
+      "type": "money_percent",
+      "value": -3,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_04_new_fiscal_year",
+    "type": "monthly",
+    "trigger": { "month": 4, "probability": 1.0 },
+    "name": "新年度スタート",
+    "description": "4月から新年度！新入社員や新生活で日本中が活気づき、物件の収益が大幅にアップします。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 15,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_05_golden_week",
+    "type": "monthly",
+    "trigger": { "month": 5, "probability": 1.0 },
+    "name": "ゴールデンウィーク",
+    "description": "大型連休のゴールデンウィーク！観光地や飲食店が大繁盛し、全員が臨時収入を得ます。",
+    "effect": {
+      "type": "money_fixed",
+      "value": 500,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_06_rainy_season",
+    "type": "monthly",
+    "trigger": { "month": 6, "probability": 1.0 },
+    "name": "梅雨入り",
+    "description": "じめじめした梅雨の季節。外出が減り消費が落ち込みます。物件の収益が少し下がります。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": -5,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_07_tanabata",
+    "type": "monthly",
+    "trigger": { "month": 7, "probability": 1.0 },
+    "name": "七夕まつり",
+    "description": "七夕の夜、短冊に願いを込めて。全国各地でお祭りが開催され、先頭プレイヤーに幸運が訪れます。",
+    "effect": {
+      "type": "money_fixed",
+      "value": 800,
+      "targetType": "first_place"
+    }
+  },
+  {
+    "id": "monthly_08_obon",
+    "type": "monthly",
+    "trigger": { "month": 8, "probability": 1.0 },
+    "name": "お盆・夏祭り",
+    "description": "お盆の帰省ラッシュと夏祭りで日本が賑わう季節。観光・宿泊業が盛況で全員収入アップ！",
+    "effect": {
+      "type": "money_percent",
+      "value": 4,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_09_typhoon",
+    "type": "monthly",
+    "trigger": { "month": 9, "probability": 1.0 },
+    "name": "台風シーズン",
+    "description": "大型台風が日本列島に接近！被害を受けたプレイヤーは修繕費を支払わなければなりません。",
+    "effect": {
+      "type": "money_percent",
+      "value": -6,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "monthly_10_sports_day",
+    "type": "monthly",
+    "trigger": { "month": 10, "probability": 1.0 },
+    "name": "スポーツの日・運動会",
+    "description": "秋晴れの下、スポーツ大会や運動会が各地で開催。スポーツ関連の物件が好調で収益ボーナスが発生！",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 10,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_11_koyo",
+    "type": "monthly",
+    "trigger": { "month": 11, "probability": 1.0 },
+    "name": "紅葉シーズン",
+    "description": "日本各地で紅葉が見頃を迎え、観光客が急増。旅行・観光地の物件を持つプレイヤーは大もうけ！",
+    "effect": {
+      "type": "money_fixed",
+      "value": 600,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "monthly_12_christmas",
+    "type": "monthly",
+    "trigger": { "month": 12, "probability": 1.0 },
+    "name": "クリスマス",
+    "description": "メリークリスマス！ショッピング街は大賑わい。サンタさんからプレゼントが届き、全員少額ボーナス！",
+    "effect": {
+      "type": "money_fixed",
+      "value": 300,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_01_earthquake",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.15 },
+    "name": "地震発生！",
+    "description": "突然の地震が発生！建物に被害が出て、修繕費が必要になります。最下位のプレイヤーは被害を免れます。",
+    "effect": {
+      "type": "money_percent",
+      "value": -8,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "random_02_stock_boom",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.12 },
+    "name": "株式大暴騰！",
+    "description": "日本株式市場が大暴騰！投資家たちが大喜びで、全プレイヤーの資産が一気に増加します。",
+    "effect": {
+      "type": "money_percent",
+      "value": 10,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_03_stock_crash",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.1 },
+    "name": "株価大暴落！",
+    "description": "世界的な経済危機で株価が大暴落！全プレイヤーの資産が大幅に減少します。",
+    "effect": {
+      "type": "money_percent",
+      "value": -10,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_04_festival_bonus",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.2 },
+    "name": "地元のお祭り",
+    "description": "地元で大きなお祭りが開催！観光客が押し寄せ、このプレイヤーの物件収益が急上昇します。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 20,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "random_05_fire",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.08 },
+    "name": "火事が発生！",
+    "description": "近くで火事が！消防車が来て何とか消し止めましたが、一部の物件に被害が出ました。",
+    "effect": {
+      "type": "money_fixed",
+      "value": -1000,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "random_06_lottery",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.08 },
+    "name": "宝くじ大当たり！",
+    "description": "買っていた宝くじがまさかの大当たり！思わぬ大金が手に入りました。ラッキー！",
+    "effect": {
+      "type": "money_fixed",
+      "value": 2000,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "random_07_all_equalizer_bonus",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.1 },
+    "name": "政府から給付金！",
+    "description": "政府が経済対策として全国民に給付金を支給！全プレイヤーに同額のお金が配られます。",
+    "effect": {
+      "type": "all_money_equalizer",
+      "value": 500,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_08_typhoon_damage",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.12 },
+    "name": "大型台風直撃！",
+    "description": "記録的な大型台風が直撃！甚大な被害をもたらし、最も多くの物件を持つプレイヤーに損害が集中します。",
+    "effect": {
+      "type": "money_percent",
+      "value": -12,
+      "targetType": "first_place"
+    }
+  },
+  {
+    "id": "random_09_teleport",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.12 },
+    "name": "迷子になった！",
+    "description": "旅の途中で道に迷い、気がついたら見知らぬ土地に！ランダムな都市に移動します。",
+    "effect": {
+      "type": "random_teleport",
+      "value": null,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "random_10_recession",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.1 },
+    "name": "不景気の波",
+    "description": "不景気の波が押し寄せてきました。物件の収益が今年いっぱい落ち込みます。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": -15,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_11_tourism_boom",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.12 },
+    "name": "観光ブーム！",
+    "description": "日本への観光ブームが到来！インバウンド需要が急増し、観光地の物件収益が大幅にアップします。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 25,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_12_food_poisoning",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.06 },
+    "name": "食中毒騒動",
+    "description": "飲食店で食中毒が発生！営業停止処分を受け、飲食系物件の収益が激減します。",
+    "effect": {
+      "type": "money_fixed",
+      "value": -800,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "random_13_inheritance",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.06 },
+    "name": "遺産相続",
+    "description": "遠い親戚から遺産が届きました！まとまったお金が手に入りました。",
+    "effect": {
+      "type": "money_fixed",
+      "value": 3000,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "random_14_last_place_gift",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.15 },
+    "name": "がんばれ！応援団",
+    "description": "最下位のプレイヤーを応援する人々が現れた！たくさんの寄付金が集まりました。逆転のチャンス！",
+    "effect": {
+      "type": "money_fixed",
+      "value": 1500,
+      "targetType": "last_place"
+    }
+  },
+  {
+    "id": "random_15_first_place_tax",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.12 },
+    "name": "富裕税の徴収",
+    "description": "政府が富裕層への課税を強化！トップのプレイヤーから多額の税金が徴収されます。",
+    "effect": {
+      "type": "money_percent",
+      "value": -8,
+      "targetType": "first_place"
+    }
+  },
+  {
+    "id": "yearly_hatsumode",
+    "type": "yearly",
+    "trigger": { "month": 1, "probability": 0.5 },
+    "name": "初詣で大吉！",
+    "description": "初詣でおみくじを引いたら大吉！今年は良いことがたくさん起こりそうです。物件収益ボーナス！",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 12,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "yearly_valentine",
+    "type": "yearly",
+    "trigger": { "month": 2, "probability": 0.6 },
+    "name": "バレンタインデー",
+    "description": "バレンタインデーにチョコをたくさんもらいました！嬉しくて仕事も頑張れます。臨時ボーナス！",
+    "effect": {
+      "type": "money_fixed",
+      "value": 400,
+      "targetType": "self"
+    }
+  },
+  {
+    "id": "yearly_cherry_blossom",
+    "type": "yearly",
+    "trigger": { "month": 4, "probability": 0.7 },
+    "name": "お花見シーズン",
+    "description": "桜が満開！全国でお花見が開催され、観光・飲食業が大繁盛。物件の収益がアップします。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 18,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "yearly_summer_vacation",
+    "type": "yearly",
+    "trigger": { "month": 7, "probability": 0.65 },
+    "name": "夏休みスタート！",
+    "description": "学校が夏休みに入り、子供たちが大はしゃぎ！レジャー施設や観光地が大賑わいです。",
+    "effect": {
+      "type": "money_fixed",
+      "value": 700,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "yearly_harvest",
+    "type": "yearly",
+    "trigger": { "month": 10, "probability": 0.6 },
+    "name": "秋の収穫祭",
+    "description": "実りの秋！農産物が豊作で各地の収穫祭が盛大に開催。食品・農業関連物件が大儲けです。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 15,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "yearly_year_end_sale",
+    "type": "yearly",
+    "trigger": { "month": 12, "probability": 0.7 },
+    "name": "年末大売り出し",
+    "description": "年末のバーゲンセールで小売業が大繁盛！全プレイヤーの物件収益にボーナスが追加されます。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": 20,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "yearly_tax_increase",
+    "type": "yearly",
+    "trigger": { "month": 10, "probability": 0.3 },
+    "name": "消費税増税",
+    "description": "政府が消費税を引き上げ！消費が落ち込み、全プレイヤーの物件収益が減少します。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": -10,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "yearly_interest_rate_up",
+    "type": "yearly",
+    "trigger": { "month": 3, "probability": 0.25 },
+    "name": "日銀が金利引き上げ",
+    "description": "日本銀行が政策金利を引き上げ！ローンの利払いが増え、全プレイヤーから一定額が徴収されます。",
+    "effect": {
+      "type": "money_fixed",
+      "value": -600,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "yearly_covid_pandemic",
+    "type": "yearly",
+    "trigger": { "month": null, "probability": 0.05 },
+    "name": "感染症の流行",
+    "description": "感染症が流行し、外出自粛要請が出されました。観光・飲食系物件の収益が大幅に落ち込みます。",
+    "effect": {
+      "type": "property_income_bonus",
+      "value": -30,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_16_yen_depreciation",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.1 },
+    "name": "円安進行！",
+    "description": "急激な円安が進行！輸出企業は好調ですが、輸入物価が上昇。物件の維持コストが増加します。",
+    "effect": {
+      "type": "money_fixed",
+      "value": -400,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_17_yen_appreciation",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.08 },
+    "name": "円高ボーナス！",
+    "description": "急激な円高が進行！輸入コストが下がり生活コストが低下。全プレイヤーに経済的恩恵があります。",
+    "effect": {
+      "type": "money_fixed",
+      "value": 400,
+      "targetType": "all"
+    }
+  },
+  {
+    "id": "random_18_none_flavor",
+    "type": "random",
+    "trigger": { "month": null, "probability": 0.18 },
+    "name": "平和な日常",
+    "description": "特に大きな出来事もなく、穏やかな日々が続いています。このひと時の平和を大切に。",
+    "effect": {
+      "type": "none",
+      "value": null,
+      "targetType": null
+    }
+  }
+]

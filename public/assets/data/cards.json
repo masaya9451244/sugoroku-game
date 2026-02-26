@@ -1,0 +1,602 @@
+[
+  {
+    "id": "card_001",
+    "type": "move_to_destination",
+    "name": "目的地へGO！カード",
+    "description": "現在の目的地へ直接移動できる。",
+    "effect": {
+      "type": "move_to_destination",
+      "value": null,
+      "targetType": "current_destination"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_002",
+    "type": "move_to_destination",
+    "name": "急行目的地カード",
+    "description": "目的地まで急行！途中の駅はスキップして直接移動する。",
+    "effect": {
+      "type": "move_to_destination",
+      "value": null,
+      "targetType": "current_destination_express"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_003",
+    "type": "move_to_destination",
+    "name": "目的地直行カード",
+    "description": "どんなに遠い目的地でも一瞬で到着できる超高速移動カード。",
+    "effect": {
+      "type": "move_to_destination",
+      "value": null,
+      "targetType": "any_destination"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_004",
+    "type": "move_steps",
+    "name": "3歩進むカード",
+    "description": "3マス前に進む。",
+    "effect": {
+      "type": "move_steps",
+      "value": 3,
+      "targetType": "forward"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_005",
+    "type": "move_steps",
+    "name": "5歩進むカード",
+    "description": "5マス前に進む。",
+    "effect": {
+      "type": "move_steps",
+      "value": 5,
+      "targetType": "forward"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_006",
+    "type": "move_steps",
+    "name": "10歩進むカード",
+    "description": "10マス前に進む。",
+    "effect": {
+      "type": "move_steps",
+      "value": 10,
+      "targetType": "forward"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_007",
+    "type": "move_steps",
+    "name": "3歩戻るカード",
+    "description": "3マス後ろに戻る。",
+    "effect": {
+      "type": "move_steps",
+      "value": -3,
+      "targetType": "backward"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_008",
+    "type": "move_steps",
+    "name": "5歩戻るカード",
+    "description": "5マス後ろに戻る。",
+    "effect": {
+      "type": "move_steps",
+      "value": -5,
+      "targetType": "backward"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_009",
+    "type": "move_to_city",
+    "name": "東京へ移動カード",
+    "description": "東京駅へ直接移動する。",
+    "effect": {
+      "type": "move_to_city",
+      "value": null,
+      "targetType": "tokyo"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_010",
+    "type": "move_to_city",
+    "name": "大阪へ移動カード",
+    "description": "大阪駅へ直接移動する。",
+    "effect": {
+      "type": "move_to_city",
+      "value": null,
+      "targetType": "osaka"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_011",
+    "type": "move_to_city",
+    "name": "札幌へ移動カード",
+    "description": "札幌駅へ直接移動する。",
+    "effect": {
+      "type": "move_to_city",
+      "value": null,
+      "targetType": "sapporo"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_012",
+    "type": "plus_dice",
+    "name": "サイコロ1個追加カード",
+    "description": "今ターンのサイコロを1個追加する。最大3個まで振れる。",
+    "effect": {
+      "type": "plus_dice",
+      "value": 1,
+      "targetType": "self"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_013",
+    "type": "plus_dice",
+    "name": "サイコロ2個追加カード",
+    "description": "今ターンのサイコロを2個追加する。最大3個まで振れる。",
+    "effect": {
+      "type": "plus_dice",
+      "value": 2,
+      "targetType": "self"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_014",
+    "type": "plus_dice",
+    "name": "大きな目サイコロカード",
+    "description": "サイコロの目を4〜6の間で選べる特別なサイコロを1個追加する。",
+    "effect": {
+      "type": "plus_dice",
+      "value": 1,
+      "targetType": "large_dice"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_015",
+    "type": "plus_dice",
+    "name": "ぞろ目サイコロカード",
+    "description": "サイコロを1個振り、その目と同じ目のサイコロが全部そろうカード。出た目×サイコロ数だけ進む。",
+    "effect": {
+      "type": "plus_dice",
+      "value": null,
+      "targetType": "matching_dice"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_016",
+    "type": "buy_property",
+    "name": "物件購入権カード",
+    "description": "現在地の物件を通常より30%安く購入できる権利を得る。",
+    "effect": {
+      "type": "buy_property",
+      "value": 30,
+      "targetType": "current_location_discount"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_017",
+    "type": "buy_property",
+    "name": "激安物件購入カード",
+    "description": "現在地の物件を半額で購入できる。",
+    "effect": {
+      "type": "buy_property",
+      "value": 50,
+      "targetType": "current_location_discount"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_018",
+    "type": "buy_property",
+    "name": "全国物件購入カード",
+    "description": "日本全国どの駅の物件でも1つ購入できる。",
+    "effect": {
+      "type": "buy_property",
+      "value": null,
+      "targetType": "any_location"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_019",
+    "type": "steal_property",
+    "name": "物件横取りカード",
+    "description": "他のプレイヤーが持つ物件を1つ奪い取る。",
+    "effect": {
+      "type": "steal_property",
+      "value": 1,
+      "targetType": "any_player"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_020",
+    "type": "steal_property",
+    "name": "特定都市横取りカード",
+    "description": "現在地の都市にある他プレイヤーの物件をすべて奪い取る。",
+    "effect": {
+      "type": "steal_property",
+      "value": null,
+      "targetType": "current_city_all"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_021",
+    "type": "sell_property",
+    "name": "物件売却カード",
+    "description": "自分の物件を1つ選んで市場価格の80%で売却する。",
+    "effect": {
+      "type": "sell_property",
+      "value": 80,
+      "targetType": "self_choice"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_022",
+    "type": "sell_property",
+    "name": "高値売却カード",
+    "description": "自分の物件を1つ選んで市場価格の120%で売却する。",
+    "effect": {
+      "type": "sell_property",
+      "value": 120,
+      "targetType": "self_choice"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_023",
+    "type": "sell_property",
+    "name": "強制売却カード",
+    "description": "相手プレイヤーの物件を1つ強制的に市場価格で売却させる。",
+    "effect": {
+      "type": "sell_property",
+      "value": 100,
+      "targetType": "opponent_forced"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_024",
+    "type": "get_money",
+    "name": "1億円収入カード",
+    "description": "1億円を受け取る。",
+    "effect": {
+      "type": "get_money",
+      "value": 10000,
+      "targetType": "flat"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_025",
+    "type": "get_money",
+    "name": "5億円収入カード",
+    "description": "5億円を受け取る。",
+    "effect": {
+      "type": "get_money",
+      "value": 50000,
+      "targetType": "flat"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_026",
+    "type": "get_money",
+    "name": "10億円収入カード",
+    "description": "10億円を受け取る。大当たり！",
+    "effect": {
+      "type": "get_money",
+      "value": 100000,
+      "targetType": "flat"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_027",
+    "type": "get_money",
+    "name": "物件収益ボーナスカード",
+    "description": "今月の物件収益に加えて、所有物件の総額の5%を追加で受け取る。",
+    "effect": {
+      "type": "get_money",
+      "value": 5,
+      "targetType": "property_value_percent"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_028",
+    "type": "get_money",
+    "name": "全員から1億円もらうカード",
+    "description": "他のプレイヤー全員から1億円ずつもらう。",
+    "effect": {
+      "type": "get_money",
+      "value": 10000,
+      "targetType": "all_players_each"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_029",
+    "type": "pay_money",
+    "name": "1億円支払いカード",
+    "description": "1億円を支払う。",
+    "effect": {
+      "type": "pay_money",
+      "value": 10000,
+      "targetType": "flat"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_030",
+    "type": "pay_money",
+    "name": "3億円支払いカード",
+    "description": "3億円を支払う。",
+    "effect": {
+      "type": "pay_money",
+      "value": 30000,
+      "targetType": "flat"
+    },
+    "rarity": "common"
+  },
+  {
+    "id": "card_031",
+    "type": "pay_money",
+    "name": "物件修繕費カード",
+    "description": "所有物件の総額の10%を修繕費として支払う。",
+    "effect": {
+      "type": "pay_money",
+      "value": 10,
+      "targetType": "property_value_percent"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_032",
+    "type": "pay_money",
+    "name": "全員に5000万円払うカード",
+    "description": "他のプレイヤー全員に5000万円ずつ払う。",
+    "effect": {
+      "type": "pay_money",
+      "value": 5000,
+      "targetType": "all_players_each"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_033",
+    "type": "bombee_away",
+    "name": "ボンビー除去カード",
+    "description": "自分についているボンビーを除去する。",
+    "effect": {
+      "type": "bombee_away",
+      "value": null,
+      "targetType": "self"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_034",
+    "type": "bombee_away",
+    "name": "ボンビーバスターカード",
+    "description": "自分についているボンビーを完全に消滅させる。次のターンもボンビーが来ない。",
+    "effect": {
+      "type": "bombee_away",
+      "value": 1,
+      "targetType": "self_permanent"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_035",
+    "type": "bombee_transfer",
+    "name": "ボンビー移し替えカード",
+    "description": "自分のボンビーを他のプレイヤーに移し替える。",
+    "effect": {
+      "type": "bombee_transfer",
+      "value": null,
+      "targetType": "target_player"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_036",
+    "type": "bombee_transfer",
+    "name": "ボンビー強制移動カード",
+    "description": "最下位のプレイヤーについているボンビーを2位のプレイヤーに移動させる。",
+    "effect": {
+      "type": "bombee_transfer",
+      "value": null,
+      "targetType": "last_to_second"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_037",
+    "type": "monopoly_break",
+    "name": "独占阻止カード",
+    "description": "他のプレイヤーが都市の物件を独占しようとしたとき、その購入を無効にする。",
+    "effect": {
+      "type": "monopoly_break",
+      "value": null,
+      "targetType": "prevent_monopoly"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_038",
+    "type": "monopoly_break",
+    "name": "独占崩壊カード",
+    "description": "他のプレイヤーが独占している都市の物件を1つ強制的に売却させる。",
+    "effect": {
+      "type": "monopoly_break",
+      "value": 1,
+      "targetType": "break_existing_monopoly"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_039",
+    "type": "card_steal",
+    "name": "カード奪取カード",
+    "description": "他のプレイヤーが持つカードを1枚ランダムに奪い取る。",
+    "effect": {
+      "type": "card_steal",
+      "value": 1,
+      "targetType": "random_card"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_040",
+    "type": "card_steal",
+    "name": "カード選択奪取カード",
+    "description": "他のプレイヤーのカードを見て1枚選んで奪い取る。",
+    "effect": {
+      "type": "card_steal",
+      "value": 1,
+      "targetType": "selected_card"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_041",
+    "type": "double_income",
+    "name": "収益2倍カード",
+    "description": "次の決算まで自分の物件収益が2倍になる。",
+    "effect": {
+      "type": "double_income",
+      "value": 2,
+      "targetType": "until_settlement"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_042",
+    "type": "double_income",
+    "name": "収益3倍カード",
+    "description": "今月1ヶ月間だけ自分の物件収益が3倍になる。",
+    "effect": {
+      "type": "double_income",
+      "value": 3,
+      "targetType": "one_month"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_043",
+    "type": "move_to_destination",
+    "name": "新幹線カード",
+    "description": "次のターン、移動距離が2倍になる新幹線に乗れる。",
+    "effect": {
+      "type": "move_to_destination",
+      "value": 2,
+      "targetType": "double_move_next_turn"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_044",
+    "type": "move_steps",
+    "name": "テレポートカード",
+    "description": "マップ上の任意の駅に瞬間移動する。",
+    "effect": {
+      "type": "move_steps",
+      "value": null,
+      "targetType": "any_station"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_045",
+    "type": "get_money",
+    "name": "宝くじ当選カード",
+    "description": "宝くじに当選！3億円を受け取る。",
+    "effect": {
+      "type": "get_money",
+      "value": 30000,
+      "targetType": "flat"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_046",
+    "type": "buy_property",
+    "name": "物件倍増カード",
+    "description": "現在地の都市の物件を1つ追加で無料で手に入れる（上限1件）。",
+    "effect": {
+      "type": "buy_property",
+      "value": 0,
+      "targetType": "current_city_free_one"
+    },
+    "rarity": "rare"
+  },
+  {
+    "id": "card_047",
+    "type": "pay_money",
+    "name": "税金カード",
+    "description": "資産の5%を税金として支払う。",
+    "effect": {
+      "type": "pay_money",
+      "value": 5,
+      "targetType": "total_assets_percent"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_048",
+    "type": "plus_dice",
+    "name": "1の目サイコロカード",
+    "description": "次の移動で必ずサイコロの目が1になる。慎重な移動が可能。",
+    "effect": {
+      "type": "plus_dice",
+      "value": 1,
+      "targetType": "fixed_one_dice"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_049",
+    "type": "move_to_city",
+    "name": "福岡へ移動カード",
+    "description": "福岡駅へ直接移動する。",
+    "effect": {
+      "type": "move_to_city",
+      "value": null,
+      "targetType": "fukuoka"
+    },
+    "rarity": "uncommon"
+  },
+  {
+    "id": "card_050",
+    "type": "sell_property",
+    "name": "物件全売却カード",
+    "description": "現在地の都市にある自分の物件をすべて売却し、その代金を受け取る。",
+    "effect": {
+      "type": "sell_property",
+      "value": 100,
+      "targetType": "current_city_all"
+    },
+    "rarity": "uncommon"
+  }
+]

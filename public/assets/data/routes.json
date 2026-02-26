@@ -1,0 +1,590 @@
+[
+  {
+    "id": "route_hakodate_sapporo",
+    "fromCityId": "hakodate",
+    "toCityId": "sapporo",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_aomori_hakodate",
+    "fromCityId": "aomori",
+    "toCityId": "hakodate",
+    "routeType": "shinkansen",
+    "squares": ["normal", "card", "normal", "property", "normal"]
+  },
+  {
+    "id": "route_morioka_aomori",
+    "fromCityId": "morioka",
+    "toCityId": "aomori",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_sendai_morioka",
+    "fromCityId": "sendai",
+    "toCityId": "morioka",
+    "routeType": "shinkansen",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_fukushima_sendai",
+    "fromCityId": "fukushima",
+    "toCityId": "sendai",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "normal", "card"]
+  },
+  {
+    "id": "route_utsunomiya_fukushima",
+    "fromCityId": "utsunomiya",
+    "toCityId": "fukushima",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "normal"]
+  },
+  {
+    "id": "route_tokyo_utsunomiya",
+    "fromCityId": "tokyo",
+    "toCityId": "utsunomiya",
+    "routeType": "shinkansen",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_tokyo_saitama",
+    "fromCityId": "tokyo",
+    "toCityId": "saitama",
+    "routeType": "shinkansen",
+    "squares": ["normal", "card", "normal"]
+  },
+  {
+    "id": "route_tokyo_yokohama",
+    "fromCityId": "tokyo",
+    "toCityId": "yokohama",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "normal"]
+  },
+  {
+    "id": "route_tokyo_nagoya",
+    "fromCityId": "tokyo",
+    "toCityId": "nagoya",
+    "routeType": "shinkansen",
+    "squares": ["normal", "card", "property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_nagoya_kyoto",
+    "fromCityId": "nagoya",
+    "toCityId": "kyoto",
+    "routeType": "shinkansen",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_kyoto_osaka",
+    "fromCityId": "kyoto",
+    "toCityId": "osaka",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_osaka_kobe",
+    "fromCityId": "osaka",
+    "toCityId": "kobe",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "normal"]
+  },
+  {
+    "id": "route_osaka_hiroshima",
+    "fromCityId": "osaka",
+    "toCityId": "hiroshima",
+    "routeType": "shinkansen",
+    "squares": ["property", "normal", "card", "normal", "property", "normal"]
+  },
+  {
+    "id": "route_hiroshima_yamaguchi",
+    "fromCityId": "hiroshima",
+    "toCityId": "yamaguchi",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_yamaguchi_fukuoka",
+    "fromCityId": "yamaguchi",
+    "toCityId": "fukuoka",
+    "routeType": "shinkansen",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_fukuoka_kagoshima",
+    "fromCityId": "fukuoka",
+    "toCityId": "kagoshima",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_tokyo_takasaki",
+    "fromCityId": "tokyo",
+    "toCityId": "takasaki",
+    "routeType": "shinkansen",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_takasaki_niigata",
+    "fromCityId": "takasaki",
+    "toCityId": "niigata",
+    "routeType": "shinkansen",
+    "squares": ["normal", "card", "property", "normal", "normal"]
+  },
+  {
+    "id": "route_takasaki_nagano",
+    "fromCityId": "takasaki",
+    "toCityId": "nagano",
+    "routeType": "shinkansen",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_nagano_kanazawa",
+    "fromCityId": "nagano",
+    "toCityId": "kanazawa",
+    "routeType": "shinkansen",
+    "squares": ["property", "normal", "card", "normal", "property"]
+  },
+  {
+    "id": "route_kanazawa_osaka",
+    "fromCityId": "kanazawa",
+    "toCityId": "osaka",
+    "routeType": "shinkansen",
+    "squares": ["normal", "card", "property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_sapporo_asahikawa",
+    "fromCityId": "sapporo",
+    "toCityId": "asahikawa",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_sapporo_obihiro",
+    "fromCityId": "sapporo",
+    "toCityId": "obihiro",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal", "property", "normal"]
+  },
+  {
+    "id": "route_obihiro_kushiro",
+    "fromCityId": "obihiro",
+    "toCityId": "kushiro",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_akita_aomori",
+    "fromCityId": "akita",
+    "toCityId": "aomori",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_akita_morioka",
+    "fromCityId": "akita",
+    "toCityId": "morioka",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_akita_yamagata",
+    "fromCityId": "akita",
+    "toCityId": "yamagata",
+    "routeType": "local",
+    "squares": ["property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_yamagata_fukushima",
+    "fromCityId": "yamagata",
+    "toCityId": "fukushima",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_yamagata_sendai",
+    "fromCityId": "yamagata",
+    "toCityId": "sendai",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_mito_utsunomiya",
+    "fromCityId": "mito",
+    "toCityId": "utsunomiya",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_mito_chiba",
+    "fromCityId": "mito",
+    "toCityId": "chiba",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_chiba_tokyo",
+    "fromCityId": "chiba",
+    "toCityId": "tokyo",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_saitama_takasaki",
+    "fromCityId": "saitama",
+    "toCityId": "takasaki",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_niigata_akita",
+    "fromCityId": "niigata",
+    "toCityId": "akita",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal", "property", "normal"]
+  },
+  {
+    "id": "route_niigata_nagano",
+    "fromCityId": "niigata",
+    "toCityId": "nagano",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_nagano_matsumoto",
+    "fromCityId": "nagano",
+    "toCityId": "matsumoto",
+    "routeType": "local",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_matsumoto_kofu",
+    "fromCityId": "matsumoto",
+    "toCityId": "kofu",
+    "routeType": "local",
+    "squares": ["property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_kofu_shizuoka",
+    "fromCityId": "kofu",
+    "toCityId": "shizuoka",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_kofu_tokyo",
+    "fromCityId": "kofu",
+    "toCityId": "tokyo",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal", "property"]
+  },
+  {
+    "id": "route_shizuoka_hamamatsu",
+    "fromCityId": "shizuoka",
+    "toCityId": "hamamatsu",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_hamamatsu_nagoya",
+    "fromCityId": "hamamatsu",
+    "toCityId": "nagoya",
+    "routeType": "local",
+    "squares": ["property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_toyama_kanazawa",
+    "fromCityId": "toyama",
+    "toCityId": "kanazawa",
+    "routeType": "local",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_toyama_nagano",
+    "fromCityId": "toyama",
+    "toCityId": "nagano",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_fukui_kanazawa",
+    "fromCityId": "fukui",
+    "toCityId": "kanazawa",
+    "routeType": "local",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_fukui_tsu",
+    "fromCityId": "fukui",
+    "toCityId": "tsu",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal", "property"]
+  },
+  {
+    "id": "route_nagoya_tsu",
+    "fromCityId": "nagoya",
+    "toCityId": "tsu",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_tsu_nara",
+    "fromCityId": "tsu",
+    "toCityId": "nara",
+    "routeType": "local",
+    "squares": ["property", "card", "normal"]
+  },
+  {
+    "id": "route_nara_kyoto",
+    "fromCityId": "nara",
+    "toCityId": "kyoto",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_nara_osaka",
+    "fromCityId": "nara",
+    "toCityId": "osaka",
+    "routeType": "local",
+    "squares": ["property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_otsu_kyoto",
+    "fromCityId": "otsu",
+    "toCityId": "kyoto",
+    "routeType": "local",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_otsu_nagoya",
+    "fromCityId": "otsu",
+    "toCityId": "nagoya",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal", "property"]
+  },
+  {
+    "id": "route_wakayama_osaka",
+    "fromCityId": "wakayama",
+    "toCityId": "osaka",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_wakayama_kobe",
+    "fromCityId": "wakayama",
+    "toCityId": "kobe",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_tottori_matsue",
+    "fromCityId": "tottori",
+    "toCityId": "matsue",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_tottori_okayama",
+    "fromCityId": "tottori",
+    "toCityId": "okayama",
+    "routeType": "local",
+    "squares": ["property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_matsue_hiroshima",
+    "fromCityId": "matsue",
+    "toCityId": "hiroshima",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal", "card"]
+  },
+  {
+    "id": "route_matsue_tottori",
+    "fromCityId": "matsue",
+    "toCityId": "tottori",
+    "routeType": "local",
+    "squares": ["property", "normal", "card"]
+  },
+  {
+    "id": "route_okayama_fukuyama",
+    "fromCityId": "okayama",
+    "toCityId": "fukuyama",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_fukuyama_hiroshima",
+    "fromCityId": "fukuyama",
+    "toCityId": "hiroshima",
+    "routeType": "local",
+    "squares": ["property", "card", "normal"]
+  },
+  {
+    "id": "route_yamaguchi_hiroshima",
+    "fromCityId": "yamaguchi",
+    "toCityId": "hiroshima",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_tokushima_takamatsu",
+    "fromCityId": "tokushima",
+    "toCityId": "takamatsu",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_takamatsu_matsuyama",
+    "fromCityId": "takamatsu",
+    "toCityId": "matsuyama",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal", "property"]
+  },
+  {
+    "id": "route_matsuyama_kochi",
+    "fromCityId": "matsuyama",
+    "toCityId": "kochi",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_kochi_tokushima",
+    "fromCityId": "kochi",
+    "toCityId": "tokushima",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal", "property"]
+  },
+  {
+    "id": "route_kitakyushu_fukuoka",
+    "fromCityId": "kitakyushu",
+    "toCityId": "fukuoka",
+    "routeType": "local",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_saga_fukuoka",
+    "fromCityId": "saga",
+    "toCityId": "fukuoka",
+    "routeType": "local",
+    "squares": ["normal", "card", "property"]
+  },
+  {
+    "id": "route_nagasaki_saga",
+    "fromCityId": "nagasaki",
+    "toCityId": "saga",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_sasebo_nagasaki",
+    "fromCityId": "sasebo",
+    "toCityId": "nagasaki",
+    "routeType": "local",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_sasebo_saga",
+    "fromCityId": "sasebo",
+    "toCityId": "saga",
+    "routeType": "local",
+    "squares": ["property", "card", "normal"]
+  },
+  {
+    "id": "route_kumamoto_fukuoka",
+    "fromCityId": "kumamoto",
+    "toCityId": "fukuoka",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_kumamoto_saga",
+    "fromCityId": "kumamoto",
+    "toCityId": "saga",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_oita_kitakyushu",
+    "fromCityId": "oita",
+    "toCityId": "kitakyushu",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal"]
+  },
+  {
+    "id": "route_oita_kumamoto",
+    "fromCityId": "oita",
+    "toCityId": "kumamoto",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal", "property"]
+  },
+  {
+    "id": "route_miyazaki_oita",
+    "fromCityId": "miyazaki",
+    "toCityId": "oita",
+    "routeType": "local",
+    "squares": ["normal", "card", "property", "normal", "card"]
+  },
+  {
+    "id": "route_miyazaki_kagoshima",
+    "fromCityId": "miyazaki",
+    "toCityId": "kagoshima",
+    "routeType": "local",
+    "squares": ["property", "normal", "card", "normal"]
+  },
+  {
+    "id": "route_kagoshima_kumamoto",
+    "fromCityId": "kagoshima",
+    "toCityId": "kumamoto",
+    "routeType": "local",
+    "squares": ["normal", "property", "card", "normal", "property"]
+  },
+  {
+    "id": "route_aomori_hakodate_ferry",
+    "fromCityId": "aomori",
+    "toCityId": "hakodate",
+    "routeType": "ferry",
+    "squares": ["normal", "card", "normal"]
+  },
+  {
+    "id": "route_osaka_takamatsu",
+    "fromCityId": "osaka",
+    "toCityId": "takamatsu",
+    "routeType": "ferry",
+    "squares": ["normal", "card", "property"]
+  },
+  {
+    "id": "route_kobe_tokushima",
+    "fromCityId": "kobe",
+    "toCityId": "tokushima",
+    "routeType": "ferry",
+    "squares": ["normal", "property", "card"]
+  },
+  {
+    "id": "route_hiroshima_matsuyama",
+    "fromCityId": "hiroshima",
+    "toCityId": "matsuyama",
+    "routeType": "ferry",
+    "squares": ["normal", "card", "property"]
+  },
+  {
+    "id": "route_fukuoka_naha",
+    "fromCityId": "fukuoka",
+    "toCityId": "naha",
+    "routeType": "ferry",
+    "squares": ["normal", "card", "normal", "property", "normal"]
+  },
+  {
+    "id": "route_kagoshima_naha",
+    "fromCityId": "kagoshima",
+    "toCityId": "naha",
+    "routeType": "ferry",
+    "squares": ["normal", "property", "card", "normal"]
+  },
+  {
+    "id": "route_yamaguchi_kitakyushu",
+    "fromCityId": "yamaguchi",
+    "toCityId": "kitakyushu",
+    "routeType": "ferry",
+    "squares": ["normal", "card", "property"]
+  }
+]
