@@ -153,14 +153,61 @@ export class GameScene extends Phaser.Scene {
   private drawMap(): void {
     const graphics = this.add.graphics();
 
-    // 陸地の簡易ポリゴン（日本列島の大まかな輪郭）
-    // マップ背景として薄い緑の矩形で日本の概形を表現
+    // 日本列島の輪郭をポリゴンで描画
     graphics.fillStyle(COLORS.LAND, 1);
-    graphics.fillRoundedRect(
-      MAP_AREA.x + 30, MAP_AREA.y + 10,
-      MAP_AREA.width - 60, MAP_AREA.height - 20,
-      8,
-    );
+
+    // lat/lng → キャンバス座標変換（mapUtilsと同じ計算式）
+    const c = (lat: number, lng: number) => ({
+      x: MAP_AREA.x + ((lng - 122) / 25) * MAP_AREA.width,
+      y: MAP_AREA.y + (1 - (lat - 24) / 22) * MAP_AREA.height,
+    });
+
+    // 島ポリゴン描画ヘルパー
+    const drawIsland = (pts: { x: number; y: number }[]): void => {
+      graphics.beginPath();
+      graphics.moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < pts.length; i++) graphics.lineTo(pts[i].x, pts[i].y);
+      graphics.closePath();
+      graphics.fillPath();
+    };
+
+    // 北海道
+    drawIsland([
+      c(41.8, 140.7), c(42.3, 140.3), c(43.0, 140.5), c(44.2, 141.7),
+      c(45.4, 141.5), c(45.2, 143.5), c(44.3, 145.0), c(43.4, 145.3),
+      c(43.0, 144.4), c(42.3, 143.3), c(41.8, 141.3),
+    ]);
+
+    // 本州
+    drawIsland([
+      // 太平洋側（N→SW）
+      c(41.8, 141.0), c(41.5, 141.5), c(40.5, 141.8), c(39.0, 141.8),
+      c(38.3, 141.3), c(36.5, 141.0), c(35.6, 140.8), c(35.0, 139.5),
+      c(34.7, 138.5), c(34.6, 137.5), c(34.4, 136.5), c(33.5, 135.8),
+      c(34.2, 135.0), c(34.5, 135.3), c(34.4, 134.0), c(34.3, 131.5),
+      c(33.9, 130.9),
+      // 日本海側（SW→N）
+      c(34.2, 130.7), c(34.5, 131.5), c(35.5, 133.5), c(35.7, 134.5),
+      c(36.3, 136.3), c(36.9, 137.2), c(37.5, 138.0), c(38.0, 139.3),
+      c(39.5, 140.0), c(40.5, 140.3), c(41.3, 140.5),
+    ]);
+
+    // 四国
+    drawIsland([
+      c(34.2, 132.5), c(34.0, 132.8), c(33.6, 133.5), c(33.0, 133.8),
+      c(32.9, 133.3), c(32.9, 132.5), c(33.3, 132.1),
+    ]);
+
+    // 九州
+    drawIsland([
+      c(33.9, 130.9), c(33.5, 131.4), c(33.0, 131.7), c(32.0, 131.4),
+      c(31.5, 130.6), c(31.1, 130.5), c(31.2, 130.2), c(31.8, 129.8),
+      c(32.5, 129.5), c(33.0, 129.7), c(33.5, 130.0), c(33.7, 130.5),
+    ]);
+
+    // 沖縄本島（小円で表現）
+    const okinawa = c(26.2, 127.7);
+    graphics.fillCircle(okinawa.x, okinawa.y, 15);
 
     // 路線を描画
     for (const route of this.boardManager.getAllRoutes()) {

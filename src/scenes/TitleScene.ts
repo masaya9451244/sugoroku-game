@@ -91,15 +91,22 @@ export class TitleScene extends Phaser.Scene {
     const cx = width / 2;
     const slots = this.saveManager.listSlots();
 
-    // 半透明背景
+    // パネルサイズを先に計算（bg のヒット判定に使用）
+    const panelH = 100 + MAX_SAVE_SLOTS * 80 + 50;
+    const panelY = height / 2 - panelH / 2;
+
+    // 半透明背景（パネル外クリックで閉じる）
     const bg = this.add.rectangle(0, 0, width, height, 0x000000, 0.6).setOrigin(0)
       .setInteractive()
-      .on('pointerdown', () => this.hideLoadPanel());
+      .on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+        if (pointer.x < cx - 250 || pointer.x > cx + 250 ||
+            pointer.y < panelY || pointer.y > panelY + panelH) {
+          this.hideLoadPanel();
+        }
+      });
     this.loadPanelObjects.push(bg);
 
     // パネル（濃い紺）
-    const panelH = 100 + MAX_SAVE_SLOTS * 80 + 50;
-    const panelY = height / 2 - panelH / 2;
     const panel = this.add.rectangle(cx, height / 2, 500, panelH, COLORS.PANEL_DARK).setOrigin(0.5);
     panel.setStrokeStyle(2, COLORS.GOLD);
     this.loadPanelObjects.push(panel);
