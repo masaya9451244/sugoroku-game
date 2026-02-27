@@ -233,8 +233,7 @@ export class OverlayScene extends Phaser.Scene {
     buyBg.on('pointerover', () => buyBg.setFillStyle(0x229954));
     buyBg.on('pointerout', () => buyBg.setFillStyle(COLORS.SUCCESS));
     buyBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onBuy();
+      this.closeOverlay(() => data.onBuy());
     });
     this.overlayObjects.push(buyBg, buyLabel);
 
@@ -251,8 +250,7 @@ export class OverlayScene extends Phaser.Scene {
     skipBg.on('pointerover', () => skipBg.setFillStyle(0x666666));
     skipBg.on('pointerout', () => skipBg.setFillStyle(0x888888));
     skipBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onSkip();
+      this.closeOverlay(() => data.onSkip());
     });
     this.overlayObjects.push(skipBg, skipLabel);
   }
@@ -331,8 +329,7 @@ export class OverlayScene extends Phaser.Scene {
     closeBg.on('pointerover', () => closeBg.setFillStyle(0xe65a2a));
     closeBg.on('pointerout', () => closeBg.setFillStyle(COLORS.PRIMARY));
     closeBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onClose();
+      this.closeOverlay(() => data.onClose());
     });
     this.overlayObjects.push(closeBg, closeLabel);
   }
@@ -387,8 +384,7 @@ export class OverlayScene extends Phaser.Scene {
       fontStyle: 'bold',
     }).setOrigin(0.5).setDepth(1);
     closeBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onClose();
+      this.closeOverlay(() => data.onClose());
     });
     this.overlayObjects.push(closeBg, closeLabel);
   }
@@ -442,8 +438,7 @@ export class OverlayScene extends Phaser.Scene {
     closeBg.on('pointerover', () => closeBg.setFillStyle(0xe65a2a));
     closeBg.on('pointerout', () => closeBg.setFillStyle(COLORS.PRIMARY));
     closeBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onClose();
+      this.closeOverlay(() => data.onClose());
     });
     this.overlayObjects.push(closeBg, closeLabel);
   }
@@ -542,8 +537,7 @@ export class OverlayScene extends Phaser.Scene {
         useBg.on('pointerover', () => useBg.setFillStyle(0x229954));
         useBg.on('pointerout', () => useBg.setFillStyle(COLORS.SUCCESS));
         useBg.on('pointerdown', () => {
-          this.hideOverlay();
-          data.onUseCard(card.id);
+          this.closeOverlay(() => data.onUseCard(card.id));
         });
         this.overlayObjects.push(useBg, useLabel);
 
@@ -565,8 +559,7 @@ export class OverlayScene extends Phaser.Scene {
         discardBg.on('pointerover', () => discardBg.setFillStyle(0x7f8c8d));
         discardBg.on('pointerout', () => discardBg.setFillStyle(0x95a5a6));
         discardBg.on('pointerdown', () => {
-          this.hideOverlay();
-          data.onDiscardCard(card.id);
+          this.closeOverlay(() => data.onDiscardCard(card.id));
         });
         this.overlayObjects.push(discardBg, discardLabel);
       });
@@ -589,8 +582,7 @@ export class OverlayScene extends Phaser.Scene {
     closeBg.on('pointerover', () => closeBg.setFillStyle(0x666666));
     closeBg.on('pointerout', () => closeBg.setFillStyle(0x888888));
     closeBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onClose();
+      this.closeOverlay(() => data.onClose());
     });
     this.overlayObjects.push(closeBg, closeLabel);
   }
@@ -687,8 +679,7 @@ export class OverlayScene extends Phaser.Scene {
         buyBg.on('pointerover', () => buyBg.setFillStyle(0x0e8070));
         buyBg.on('pointerout', () => buyBg.setFillStyle(0x16a085));
         buyBg.on('pointerdown', () => {
-          this.hideOverlay();
-          data.onBuy(card.id);
+          this.closeOverlay(() => data.onBuy(card.id));
         });
       }
       this.overlayObjects.push(buyBg, buyLabel);
@@ -706,8 +697,7 @@ export class OverlayScene extends Phaser.Scene {
     closeBg.on('pointerover', () => closeBg.setFillStyle(0x666666));
     closeBg.on('pointerout', () => closeBg.setFillStyle(0x888888));
     closeBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onClose();
+      this.closeOverlay(() => data.onClose());
     });
     this.overlayObjects.push(closeBg, closeLabel);
   }
@@ -798,8 +788,7 @@ export class OverlayScene extends Phaser.Scene {
     upgBg.on('pointerover', () => upgBg.setFillStyle(0xca6f1e));
     upgBg.on('pointerout', () => upgBg.setFillStyle(0xe67e22));
     upgBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onUpgrade();
+      this.closeOverlay(() => data.onUpgrade());
     });
     this.overlayObjects.push(upgBg, upgLabel);
 
@@ -815,8 +804,7 @@ export class OverlayScene extends Phaser.Scene {
     skipBg.on('pointerover', () => skipBg.setFillStyle(0x666666));
     skipBg.on('pointerout', () => skipBg.setFillStyle(0x888888));
     skipBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onSkip();
+      this.closeOverlay(() => data.onSkip());
     });
     this.overlayObjects.push(skipBg, skipLabel);
   }
@@ -884,8 +872,7 @@ export class OverlayScene extends Phaser.Scene {
       selBg.on('pointerover', () => selBg.setFillStyle(0xc0392b));
       selBg.on('pointerout', () => selBg.setFillStyle(COLORS.DANGER));
       selBg.on('pointerdown', () => {
-        this.hideOverlay();
-        data.onSelect(prop.id);
+        this.closeOverlay(() => data.onSelect(prop.id));
       });
       this.overlayObjects.push(selBg, selLabel);
     });
@@ -902,8 +889,7 @@ export class OverlayScene extends Phaser.Scene {
     cancelBg.on('pointerover', () => cancelBg.setFillStyle(0x666666));
     cancelBg.on('pointerout', () => cancelBg.setFillStyle(0x888888));
     cancelBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onCancel();
+      this.closeOverlay(() => data.onCancel());
     });
     this.overlayObjects.push(cancelBg, cancelLabel);
   }
@@ -971,8 +957,7 @@ export class OverlayScene extends Phaser.Scene {
       selBg.on('pointerover', () => selBg.setFillStyle(0x7d3c98));
       selBg.on('pointerout', () => selBg.setFillStyle(0x8e44ad));
       selBg.on('pointerdown', () => {
-        this.hideOverlay();
-        data.onSelect(target.id);
+        this.closeOverlay(() => data.onSelect(target.id));
       });
       this.overlayObjects.push(selBg, selLabel);
     });
@@ -990,8 +975,7 @@ export class OverlayScene extends Phaser.Scene {
     cancelBg.on('pointerover', () => cancelBg.setFillStyle(0x666666));
     cancelBg.on('pointerout', () => cancelBg.setFillStyle(0x888888));
     cancelBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onCancel();
+      this.closeOverlay(() => data.onCancel());
     });
     this.overlayObjects.push(cancelBg, cancelLabel);
   }
@@ -1077,8 +1061,7 @@ export class OverlayScene extends Phaser.Scene {
       stealBg.on('pointerover', () => stealBg.setFillStyle(0xc0392b));
       stealBg.on('pointerout', () => stealBg.setFillStyle(0xe74c3c));
       stealBg.on('pointerdown', () => {
-        this.hideOverlay();
-        data.onSelect(card.id);
+        this.closeOverlay(() => data.onSelect(card.id));
       });
       this.overlayObjects.push(stealBg, stealLabel);
     });
@@ -1095,8 +1078,7 @@ export class OverlayScene extends Phaser.Scene {
     cancelBg.on('pointerover', () => cancelBg.setFillStyle(0x666666));
     cancelBg.on('pointerout', () => cancelBg.setFillStyle(0x888888));
     cancelBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onCancel();
+      this.closeOverlay(() => data.onCancel());
     });
     this.overlayObjects.push(cancelBg, cancelLabel);
   }
@@ -1159,8 +1141,7 @@ export class OverlayScene extends Phaser.Scene {
       cityBg.on('pointerover', () => cityBg.setFillStyle(0x16a085));
       cityBg.on('pointerout', () => cityBg.setFillStyle(0x1abc9c));
       cityBg.on('pointerdown', () => {
-        this.hideOverlay();
-        data.onSelect(city.id);
+        this.closeOverlay(() => data.onSelect(city.id));
       });
       this.overlayObjects.push(cityBg, cityLabel);
     });
@@ -1177,8 +1158,7 @@ export class OverlayScene extends Phaser.Scene {
     cancelBg.on('pointerover', () => cancelBg.setFillStyle(0x666666));
     cancelBg.on('pointerout', () => cancelBg.setFillStyle(0x888888));
     cancelBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onCancel();
+      this.closeOverlay(() => data.onCancel());
     });
     this.overlayObjects.push(cancelBg, cancelLabel);
   }
@@ -1257,8 +1237,7 @@ export class OverlayScene extends Phaser.Scene {
       confirmBg.on('pointerover', () => confirmBg.setFillStyle(0xd35400));
       confirmBg.on('pointerout', () => confirmBg.setFillStyle(0xe67e22));
       confirmBg.on('pointerdown', () => {
-        this.hideOverlay();
-        data.onConfirm();
+        this.closeOverlay(() => data.onConfirm());
       });
       this.overlayObjects.push(confirmBg, confirmLabel);
       return;
@@ -1305,8 +1284,7 @@ export class OverlayScene extends Phaser.Scene {
       sellBg.on('pointerover', () => sellBg.setFillStyle(0xd35400));
       sellBg.on('pointerout', () => sellBg.setFillStyle(0xe67e22));
       sellBg.on('pointerdown', () => {
-        this.hideOverlay();
-        data.onSell(prop.id);
+        this.closeOverlay(() => data.onSell(prop.id));
       });
       this.overlayObjects.push(sellBg, sellLabel);
     });
@@ -1323,8 +1301,7 @@ export class OverlayScene extends Phaser.Scene {
     confirmBg.on('pointerover', () => confirmBg.setFillStyle(0x666666));
     confirmBg.on('pointerout', () => confirmBg.setFillStyle(0x888888));
     confirmBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onConfirm();
+      this.closeOverlay(() => data.onConfirm());
     });
     this.overlayObjects.push(confirmBg, confirmLabel);
   }
@@ -1346,8 +1323,7 @@ export class OverlayScene extends Phaser.Scene {
     const bg = this.add.rectangle(0, 0, width, height, 0x000000, 0.4).setOrigin(0)
       .setInteractive();
     bg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onClose();
+      this.closeOverlay(() => data.onClose());
     });
     this.overlayObjects.push(bg);
 
@@ -1445,8 +1421,7 @@ export class OverlayScene extends Phaser.Scene {
     closeBg.on('pointerover', () => closeBg.setFillStyle(0x666666));
     closeBg.on('pointerout', () => closeBg.setFillStyle(0x888888));
     closeBg.on('pointerdown', () => {
-      this.hideOverlay();
-      data.onClose();
+      this.closeOverlay(() => data.onClose());
     });
     this.overlayObjects.push(closeBg, closeLabel);
   }
@@ -1460,6 +1435,15 @@ export class OverlayScene extends Phaser.Scene {
     this.hideOverlay();
     const game = this.scene.get(SCENE_KEYS.GAME);
     if (game) game.input.enabled = false;
+  }
+
+  // ボタン押下時にオーバーレイを閉じてからコールバックを実行する。
+  // hideOverlay() で GameScene 入力を即座に有効化すると、ポインタがまだ
+  // 押下中の状態で GameScene がイベントを受け取りフリーズする問題を防ぐため、
+  // delayedCall(0, ...) で次フレームに callback を遅延実行する。
+  private closeOverlay(callback: () => void): void {
+    this.hideOverlay();
+    this.time.delayedCall(0, callback);
   }
 
   hideOverlay(): void {
