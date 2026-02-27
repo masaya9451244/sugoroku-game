@@ -22,7 +22,7 @@ export class ResultScene extends Phaser.Scene {
     const cx = width / 2;
 
     // 背景グラデーション風
-    this.add.rectangle(0, 0, width, height, 0x1a0a2e).setOrigin(0);
+    this.add.rectangle(0, 0, width, height, COLORS.HUD_BG).setOrigin(0);
     this.add.rectangle(0, height * 0.6, width, height * 0.4, 0x0d0620, 0.8).setOrigin(0);
 
     // タイトル帯
@@ -45,6 +45,8 @@ export class ResultScene extends Phaser.Scene {
     this.showGameInfo(cx, height);
     this.createReturnButton(cx, height - 50);
 
+    // 紙吹雪エフェクト
+    this.spawnConfetti(width, height);
     // 入場アニメーション
     this.animateEntrance();
   }
@@ -64,9 +66,11 @@ export class ResultScene extends Phaser.Scene {
 
     this.add.text(cx, 175, winner.name, {
       fontFamily: FONTS.PRIMARY,
-      fontSize: FONTS.SIZE.XL,
+      fontSize: 48,
       color: '#ffffff',
       fontStyle: 'bold',
+      stroke: '#cc0000',
+      strokeThickness: 3,
     }).setOrigin(0.5);
 
     this.add.text(cx, 215, `総資産 ${formatManEn(winner.totalAssets)}`, {
@@ -172,8 +176,28 @@ export class ResultScene extends Phaser.Scene {
     this.createReturnButton(cx, height / 2 + 80);
   }
 
+  private spawnConfetti(width: number, height: number): void {
+    const confettiColors = [0xff0000, 0xffff00, 0x00ff00, 0x00ffff, 0xff00ff, 0xff8800, 0xffffff];
+    for (let i = 0; i < 60; i++) {
+      const x = Phaser.Math.Between(0, width);
+      const rect = this.add.rectangle(x, -20, 8, 12, Phaser.Utils.Array.GetRandom(confettiColors))
+        .setDepth(200)
+        .setRotation(Phaser.Math.FloatBetween(0, Math.PI * 2));
+      this.tweens.add({
+        targets: rect,
+        y: height + 30,
+        x: x + Phaser.Math.Between(-80, 80),
+        rotation: rect.rotation + Phaser.Math.FloatBetween(-3, 3),
+        alpha: { from: 1, to: 0.4 },
+        duration: Phaser.Math.Between(1800, 3500),
+        delay: Phaser.Math.Between(0, 1200),
+        ease: 'Sine.easeIn',
+        onComplete: () => rect.destroy(),
+      });
+    }
+  }
+
   private animateEntrance(): void {
-    // 全テキストをフェードイン
     this.cameras.main.fadeIn(600, 0, 0, 0);
   }
 }

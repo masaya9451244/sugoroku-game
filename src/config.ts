@@ -19,14 +19,35 @@ export const SCENE_KEYS = {
 } as const;
 
 export const COLORS = {
-  PRIMARY: 0xff6b35,
-  SECONDARY: 0x4ecdc4,
-  BACKGROUND: 0xfff9f0,
+  // プライマリ：桃鉄スタイルの鮮やかな赤
+  PRIMARY: 0xee1111,
+  SECONDARY: 0xffe000,     // 黄色アクセント
+  BACKGROUND: 0xfff9f0,    // 後方互換のため残す
+
+  // マップ背景
+  OCEAN: 0x1565c0,          // 海・深い青
+  LAND: 0xdcedc8,           // 陸地・薄い緑
+
+  // HUD / UI背景
+  HUD_BG: 0x0d1b3e,         // 濃い紺（HUD・トップバー）
+  PANEL_DARK: 0x1a2a4a,     // プレイヤーカードBG
+
+  // テキスト
   TEXT_PRIMARY: 0x333333,
   TEXT_WHITE: 0xffffff,
+  GOLD: 0xffd700,           // 金（1位・ボーナス）
+  SILVER: 0xc0c0c0,         // 銀（2位）
+  BRONZE: 0xcd7f32,         // 銅（3位）
+
+  // アクション
   DANGER: 0xe74c3c,
   SUCCESS: 0x27ae60,
-  GOLD: 0xf1c40f,
+
+  // マス目種類別カラー（マップ上のドット色）
+  SQUARE_PROPERTY: 0xffd700,  // 物件マス：黄
+  SQUARE_CARD: 0x00bcd4,      // カードマス：水色
+  SQUARE_EVENT: 0xe91e63,     // イベントマス：ピンク
+  SQUARE_SHOP: 0x4caf50,      // 売り場マス：緑
 } as const;
 
 export const FONTS = {
@@ -58,6 +79,14 @@ export const SAVE_KEYS = {
   SLOT_PREFIX: 'sugoroku_save_slot_',
   METADATA: 'sugoroku_save_metadata',
   VERSION: '1.0.0',
+} as const;
+
+/** レイアウト定数 */
+export const LAYOUT = {
+  TOPBAR_H: 40,    // トップバー高さ
+  HUD_Y: 580,      // 下部HUD開始Y
+  HUD_H: 140,      // HUD高さ
+  ACTION_X: 960,   // アクションゾーン開始X（右320px分）
 } as const;
 
 /** カード売り場がある主要都市 */
