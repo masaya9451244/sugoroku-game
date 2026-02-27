@@ -1438,12 +1438,27 @@ export class OverlayScene extends Phaser.Scene {
   }
 
   // ボタン押下時にオーバーレイを閉じてからコールバックを実行する。
-  // hideOverlay() で GameScene 入力を即座に有効化すると、ポインタがまだ
-  // 押下中の状態で GameScene がイベントを受け取りフリーズする問題を防ぐため、
-  // delayedCall(0, ...) で次フレームに callback を遅延実行する。
+  //
+  // 問題: OverlayScene と GameScene は同フレーム内で入力処理を行う。
+  //   OverlayScene が先に pointerdown を処理し hideOverlay() で
+  //   game.input.enabled = true にすると、同フレーム内で GameScene の
+  //   InputPlugin も有効化済みとして処理され、マップの hitZone が発火して
+  //   ダイアログが即座に再表示される（「閉じる」が押せない症状）。
+  //
+  // 修正: game.input.enabled の復元とコールバックをともに次フレームに遅延し、
+  //   同フレーム内での GameScene 入力処理を防ぐ。
+  //   また、ダブルクリックによる二重呼び出しを overlayObjects.length で防ぐ。
   private closeOverlay(callback: () => void): void {
-    this.hideOverlay();
-    this.time.delayedCall(0, callback);
+    if (this.overlayObjects.length === 0) return;
+    // オブジェクトをすぐ破棄（UI を消す）
+    this.overlayObjects.forEach((o) => o.destroy());
+    this.overlayObjects = [];
+    // game.input.enabled の復元とコールバックは次フレームに遅延
+    this.time.delayedCall(0, () => {
+      const game = this.scene.get(SCENE_KEYS.GAME);
+      if (game) game.input.enabled = true;
+      callback();
+    });
   }
 
   hideOverlay(): void {
