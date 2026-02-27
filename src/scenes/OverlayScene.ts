@@ -160,7 +160,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showPropertyPurchase(data: PropertyPurchaseData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -262,7 +262,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showYearEnd(data: YearEndData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -342,7 +342,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showDestinationBonus(data: DestinationBonusData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -398,7 +398,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showEvent(data: EventData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -453,7 +453,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showCardHand(data: CardHandData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -600,7 +600,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showCardShop(data: CardShopData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -717,7 +717,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showPropertyUpgrade(data: PropertyUpgradeData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -826,7 +826,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showPropertySelect(data: PropertySelectData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -913,7 +913,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showPlayerSelect(data: PlayerSelectData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -1001,7 +1001,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showCardSelect(data: CardSelectData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -1106,7 +1106,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showCitySelect(data: CitySelectData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -1188,7 +1188,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showBankruptcy(data: BankruptcyData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -1334,7 +1334,7 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   showCityInfo(data: CityInfoData): void {
-    this.hideOverlay();
+    this.beginOverlay();
 
     const { width, height } = this.scale;
     const cx = width / 2;
@@ -1455,8 +1455,18 @@ export class OverlayScene extends Phaser.Scene {
   // オーバーレイを閉じる
   // ──────────────────────────────────────
 
+  // ダイアログ表示開始：GameScene入力を無効化してからオーバーレイをリセット
+  private beginOverlay(): void {
+    this.hideOverlay();
+    const game = this.scene.get(SCENE_KEYS.GAME);
+    if (game) game.input.enabled = false;
+  }
+
   hideOverlay(): void {
     this.overlayObjects.forEach((o) => o.destroy());
     this.overlayObjects = [];
+    // GameSceneの入力を再有効化
+    const game = this.scene.get(SCENE_KEYS.GAME);
+    if (game) game.input.enabled = true;
   }
 }
