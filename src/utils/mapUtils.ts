@@ -3,8 +3,8 @@
 const MAP_BOUNDS = {
   minLat: 24.0,
   maxLat: 46.0,
-  minLng: 122.0,
-  maxLng: 147.0,
+  minLng: 127.5,
+  maxLng: 146.5,
 };
 
 export interface MapArea {

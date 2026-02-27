@@ -20,14 +20,44 @@ import type { OverlayScene, PropertySelectData, BankruptcyData, CityInfoData } f
 const MAP_AREA: MapArea = { x: 0, y: LAYOUT.TOPBAR_H, width: 1280, height: 540 };
 const HUD_Y = LAYOUT.HUD_Y;
 const ACTION_X = LAYOUT.ACTION_X;
-const CITY_DOT_RADIUS = 7;
+const CITY_DOT_RADIUS = 4;
 const PAWN_RADIUS = 11;
 
 const ROUTE_COLORS: Record<string, number> = {
-  shinkansen: 0x43a047,  // 緑（新幹線）
-  local: 0x90a4ae,       // グレー（在来線）
-  ferry: 0x29b6f6,       // 水色（フェリー）
+  shinkansen: 0xff6600,  // オレンジ（新幹線・桃鉄スタイル）
+  local: 0x90a4ae,       // グレー（在来線・デフォルト）
+  ferry: 0x00bcd4,       // 明るい青（フェリー）
 };
+
+const REGION_ROUTE_COLORS: Record<string, number> = {
+  hokkaido: 0x9c27b0,       // 紫
+  tohoku: 0x2196f3,          // 青
+  kanto: 0xf44336,           // 赤
+  chubu: 0xff9800,           // オレンジ
+  kinki: 0x4caf50,           // 緑
+  chugoku: 0x009688,         // ティール
+  shikoku: 0xe91e63,         // ピンク
+  kyushu_okinawa: 0x795548,  // ブラウン
+};
+
+const MAJOR_CITY_IDS = new Set([
+  // 北海道
+  'sapporo', 'hakodate', 'asahikawa', 'kushiro',
+  // 東北
+  'aomori', 'akita', 'sendai', 'morioka',
+  // 関東
+  'tokyo', 'yokohama', 'chiba', 'utsunomiya',
+  // 中部
+  'niigata', 'nagano', 'nagoya', 'kanazawa', 'hamamatsu', 'shizuoka',
+  // 近畿
+  'osaka', 'kyoto', 'kobe', 'nara', 'wakayama',
+  // 中国
+  'hiroshima', 'okayama', 'matsue',
+  // 四国
+  'takamatsu', 'matsuyama', 'kochi',
+  // 九州沖縄
+  'fukuoka', 'kitakyushu', 'nagasaki', 'kumamoto', 'kagoshima', 'miyazaki', 'naha',
+]);
 
 const ROUTE_TYPE_NAMES: Record<string, string> = {
   shinkansen: '新幹線',
@@ -156,9 +186,9 @@ export class GameScene extends Phaser.Scene {
     // 日本列島の輪郭をポリゴンで描画
     graphics.fillStyle(COLORS.LAND, 1);
 
-    // lat/lng → キャンバス座標変換（mapUtilsと同じ計算式）
+    // lat/lng → キャンバス座標変換（新MAP_BOUNDS: minLng=127.5, range=19°）
     const c = (lat: number, lng: number) => ({
-      x: MAP_AREA.x + ((lng - 122) / 25) * MAP_AREA.width,
+      x: MAP_AREA.x + ((lng - 127.5) / 19) * MAP_AREA.width,
       y: MAP_AREA.y + (1 - (lat - 24) / 22) * MAP_AREA.height,
     });
 
@@ -210,14 +240,30 @@ export class GameScene extends Phaser.Scene {
     graphics.fillCircle(okinawa.x, okinawa.y, 15);
 
     // 路線を描画
+    const citiesById = new Map(this.boardManager.getAllCities().map((c) => [c.id, c]));
     for (const route of this.boardManager.getAllRoutes()) {
       const fromPos = this.boardManager.getCityCanvasPos(route.fromCityId, MAP_AREA);
       const toPos = this.boardManager.getCityCanvasPos(route.toCityId, MAP_AREA);
       if (!fromPos || !toPos) continue;
 
-      const color = ROUTE_COLORS[route.routeType] ?? 0x888888;
-      const lineWidth = route.routeType === 'shinkansen' ? 3.5 : 1.8;
-      const alpha = route.routeType === 'shinkansen' ? 1.0 : 0.7;
+      let color: number;
+      let lineWidth: number;
+      let alpha: number;
+      if (route.routeType === 'shinkansen') {
+        color = ROUTE_COLORS.shinkansen;
+        lineWidth = 4.0;
+        alpha = 1.0;
+      } else if (route.routeType === 'ferry') {
+        color = ROUTE_COLORS.ferry;
+        lineWidth = 2.0;
+        alpha = 0.8;
+      } else {
+        // 在来線：fromCityの地域カラーを使用
+        const fromCity = citiesById.get(route.fromCityId);
+        color = (fromCity ? REGION_ROUTE_COLORS[fromCity.region] : undefined) ?? 0x90a4ae;
+        lineWidth = 2.0;
+        alpha = 0.75;
+      }
 
       graphics.lineStyle(lineWidth, color, alpha);
       graphics.beginPath();
@@ -234,20 +280,23 @@ export class GameScene extends Phaser.Scene {
       // ドット外枠（白）
       graphics.fillStyle(0xffffff, 1);
       graphics.fillCircle(pos.x, pos.y, CITY_DOT_RADIUS + 2);
-      // ドット内（オレンジ）
-      graphics.fillStyle(COLORS.PRIMARY, 1);
+      // ドット内（地域カラー）
+      const dotColor = REGION_ROUTE_COLORS[city.region] ?? COLORS.PRIMARY;
+      graphics.fillStyle(dotColor, 1);
       graphics.fillCircle(pos.x, pos.y, CITY_DOT_RADIUS);
 
-      // 都市名ラベル（白文字・黒縁取り）
-      this.add
-        .text(pos.x + CITY_DOT_RADIUS + 3, pos.y, city.name, {
-          fontFamily: FONTS.PRIMARY,
-          fontSize: 11,
-          color: '#ffffff',
-          stroke: '#000000',
-          strokeThickness: 3,
-        })
-        .setOrigin(0, 0.5);
+      // 都市名ラベル（主要36都市のみ表示）
+      if (MAJOR_CITY_IDS.has(city.id)) {
+        this.add
+          .text(pos.x + CITY_DOT_RADIUS + 3, pos.y, city.name, {
+            fontFamily: FONTS.PRIMARY,
+            fontSize: 9,
+            color: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 3,
+          })
+          .setOrigin(0, 0.5);
+      }
 
       // 透明なヒットゾーン（都市クリックで物件情報を表示）
       const cityRef = city;

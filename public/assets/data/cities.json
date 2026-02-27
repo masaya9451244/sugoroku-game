@@ -54,5 +54,56 @@
   { "id": "oita", "name": "大分", "prefecture": "大分県", "region": "kyushu_okinawa", "lat": 33.2382, "lng": 131.6126 },
   { "id": "miyazaki", "name": "宮崎", "prefecture": "宮崎県", "region": "kyushu_okinawa", "lat": 31.9111, "lng": 131.4239 },
   { "id": "kagoshima", "name": "鹿児島", "prefecture": "鹿児島県", "region": "kyushu_okinawa", "lat": 31.5966, "lng": 130.5571 },
-  { "id": "naha", "name": "那覇", "prefecture": "沖縄県", "region": "kyushu_okinawa", "lat": 26.2124, "lng": 127.6809 }
+  { "id": "naha", "name": "那覇", "prefecture": "沖縄県", "region": "kyushu_okinawa", "lat": 26.2124, "lng": 127.6809 },
+
+  { "id": "wakanai", "name": "稚内", "prefecture": "北海道", "region": "hokkaido", "lat": 45.4158, "lng": 141.6728 },
+  { "id": "abashiri", "name": "網走", "prefecture": "北海道", "region": "hokkaido", "lat": 44.0154, "lng": 144.2727 },
+  { "id": "muroran", "name": "室蘭", "prefecture": "北海道", "region": "hokkaido", "lat": 42.3149, "lng": 140.9736 },
+  { "id": "otaru", "name": "小樽", "prefecture": "北海道", "region": "hokkaido", "lat": 43.1907, "lng": 141.0023 },
+
+  { "id": "hirosaki", "name": "弘前", "prefecture": "青森県", "region": "tohoku", "lat": 40.6030, "lng": 140.4640 },
+  { "id": "sakata", "name": "酒田", "prefecture": "山形県", "region": "tohoku", "lat": 38.9138, "lng": 139.8364 },
+  { "id": "tsuruoka", "name": "鶴岡", "prefecture": "山形県", "region": "tohoku", "lat": 38.7281, "lng": 139.8248 },
+  { "id": "koriyama", "name": "郡山", "prefecture": "福島県", "region": "tohoku", "lat": 37.4015, "lng": 140.3876 },
+  { "id": "iwaki", "name": "いわき", "prefecture": "福島県", "region": "tohoku", "lat": 37.0501, "lng": 140.8876 },
+
+  { "id": "maebashi", "name": "前橋", "prefecture": "群馬県", "region": "kanto", "lat": 36.3895, "lng": 139.0634 },
+  { "id": "tsukuba", "name": "つくば", "prefecture": "茨城県", "region": "kanto", "lat": 36.0843, "lng": 140.1136 },
+  { "id": "kawagoe", "name": "川越", "prefecture": "埼玉県", "region": "kanto", "lat": 35.9249, "lng": 139.4853 },
+  { "id": "atami", "name": "熱海", "prefecture": "静岡県", "region": "chubu", "lat": 35.1019, "lng": 139.0743 },
+
+  { "id": "takayama", "name": "高山", "prefecture": "岐阜県", "region": "chubu", "lat": 36.1457, "lng": 137.2525 },
+  { "id": "nagaoka", "name": "長岡", "prefecture": "新潟県", "region": "chubu", "lat": 37.4476, "lng": 138.8514 },
+  { "id": "joetsu", "name": "上越", "prefecture": "新潟県", "region": "chubu", "lat": 37.1480, "lng": 138.2364 },
+  { "id": "toyohashi", "name": "豊橋", "prefecture": "愛知県", "region": "chubu", "lat": 34.7693, "lng": 137.3916 },
+  { "id": "yokkaichi", "name": "四日市", "prefecture": "三重県", "region": "kinki", "lat": 34.9654, "lng": 136.6243 },
+  { "id": "fuji", "name": "富士", "prefecture": "静岡県", "region": "chubu", "lat": 35.1612, "lng": 138.6760 },
+  { "id": "numazu", "name": "沼津", "prefecture": "静岡県", "region": "chubu", "lat": 35.0958, "lng": 138.8631 },
+
+  { "id": "himeji", "name": "姫路", "prefecture": "兵庫県", "region": "kinki", "lat": 34.8148, "lng": 134.6874 },
+  { "id": "maizuru", "name": "舞鶴", "prefecture": "京都府", "region": "kinki", "lat": 35.4742, "lng": 135.3756 },
+  { "id": "toyooka", "name": "豊岡", "prefecture": "兵庫県", "region": "kinki", "lat": 35.5452, "lng": 134.8175 },
+  { "id": "tanabe", "name": "田辺", "prefecture": "和歌山県", "region": "kinki", "lat": 33.7332, "lng": 135.3764 },
+
+  { "id": "kurashiki", "name": "倉敷", "prefecture": "岡山県", "region": "chugoku", "lat": 34.5850, "lng": 133.7723 },
+  { "id": "shimonoseki", "name": "下関", "prefecture": "山口県", "region": "chugoku", "lat": 33.9543, "lng": 130.9410 },
+  { "id": "hagi", "name": "萩", "prefecture": "山口県", "region": "chugoku", "lat": 34.4034, "lng": 131.3987 },
+  { "id": "ube", "name": "宇部", "prefecture": "山口県", "region": "chugoku", "lat": 33.9507, "lng": 131.2473 },
+
+  { "id": "imabari", "name": "今治", "prefecture": "愛媛県", "region": "shikoku", "lat": 34.0660, "lng": 132.9978 },
+  { "id": "niihama", "name": "新居浜", "prefecture": "愛媛県", "region": "shikoku", "lat": 33.9601, "lng": 133.3023 },
+  { "id": "anan", "name": "阿南", "prefecture": "徳島県", "region": "shikoku", "lat": 33.9234, "lng": 134.6619 },
+  { "id": "uwajima", "name": "宇和島", "prefecture": "愛媛県", "region": "shikoku", "lat": 33.2245, "lng": 132.5596 },
+
+  { "id": "kurume", "name": "久留米", "prefecture": "福岡県", "region": "kyushu_okinawa", "lat": 33.3191, "lng": 130.5081 },
+  { "id": "tosu", "name": "鳥栖", "prefecture": "佐賀県", "region": "kyushu_okinawa", "lat": 33.3800, "lng": 130.5078 },
+  { "id": "yatsushiro", "name": "八代", "prefecture": "熊本県", "region": "kyushu_okinawa", "lat": 32.5045, "lng": 130.6085 },
+  { "id": "nobeoka", "name": "延岡", "prefecture": "宮崎県", "region": "kyushu_okinawa", "lat": 32.5825, "lng": 131.6633 },
+  { "id": "nichinan", "name": "日南", "prefecture": "宮崎県", "region": "kyushu_okinawa", "lat": 31.5983, "lng": 131.3820 },
+  { "id": "ibusuki", "name": "指宿", "prefecture": "鹿児島県", "region": "kyushu_okinawa", "lat": 31.2432, "lng": 130.6314 },
+  { "id": "amami", "name": "奄美", "prefecture": "鹿児島県", "region": "kyushu_okinawa", "lat": 28.3741, "lng": 129.4940 },
+  { "id": "nago", "name": "名護", "prefecture": "沖縄県", "region": "kyushu_okinawa", "lat": 26.5912, "lng": 127.9777 },
+  { "id": "takachiho", "name": "高千穂", "prefecture": "宮崎県", "region": "kyushu_okinawa", "lat": 32.7128, "lng": 131.3003 },
+  { "id": "shimabara", "name": "島原", "prefecture": "長崎県", "region": "kyushu_okinawa", "lat": 32.7796, "lng": 130.3641 },
+  { "id": "goto", "name": "五島", "prefecture": "長崎県", "region": "kyushu_okinawa", "lat": 32.6965, "lng": 128.8337 }
 ]

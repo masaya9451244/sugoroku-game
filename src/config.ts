@@ -25,8 +25,8 @@ export const COLORS = {
   BACKGROUND: 0xfff9f0,    // 後方互換のため残す
 
   // マップ背景
-  OCEAN: 0x1565c0,          // 海・深い青
-  LAND: 0xdcedc8,           // 陸地・薄い緑
+  OCEAN: 0x64b5f6,          // 海・明るい空色（桃鉄スタイル）
+  LAND: 0xfff9c4,           // 陸地・暖かみのあるクリーム
 
   // HUD / UI背景
   HUD_BG: 0x0d1b3e,         // 濃い紺（HUD・トップバー）
