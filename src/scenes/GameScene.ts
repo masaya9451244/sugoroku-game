@@ -846,12 +846,24 @@ export class GameScene extends Phaser.Scene {
     // サイコロ追加カード
     if (card?.type === 'plus_dice') {
       this.extraDiceBonus = card.effect.value ?? 1;
+      // CPU はダイアログを出さず即続行（ダイアログが game.input.enabled=false のまま
+      // 残るとフリーズするため）
+      if (player.type === 'cpu') {
+        this.updateCardInfo();
+        return;
+      }
       const overlayScene = this.overlayScene;
       overlayScene.events.emit('show_event', {
         title: card.name,
         description: `次のサイコロに +${this.extraDiceBonus} が加算されます！`,
         onClose: () => this.updateCardInfo(),
       });
+      return;
+    }
+
+    // CPU はダイアログを出さず即続行（同上）
+    if (player.type === 'cpu') {
+      this.updateCardInfo();
       return;
     }
 
@@ -1580,6 +1592,10 @@ export class GameScene extends Phaser.Scene {
    * 次のプレイヤーに交代
    */
   private nextPlayer(): void {
+    // 残留オーバーレイを確実にクリアし game.input.enabled を復元する。
+    // CPUカード使用ダイアログなどが閉じられないまま残ることがあるため。
+    this.overlayScene.hideOverlay();
+
     const nextIndex =
       (this.gameState.currentPlayerIndex + 1) % this.gameState.players.length;
     this.gameState = {
