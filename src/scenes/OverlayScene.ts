@@ -1319,12 +1319,11 @@ export class OverlayScene extends Phaser.Scene {
     const rowCount = data.properties.length;
     const panelH = rowCount === 0 ? 200 : Math.min(180 + rowCount * 52, 500);
 
-    // 半透明背景（クリックで閉じる）
-    const bg = this.add.rectangle(0, 0, width, height, 0x000000, 0.4).setOrigin(0)
-      .setInteractive();
-    bg.on('pointerdown', () => {
-      this.closeOverlay(() => data.onClose());
-    });
+    // 半透明背景（非インタラクティブ）
+    // 他のダイアログと同様に bg は interactive にしない。
+    // 全画面 interactive bg が同フレーム内の同一 pointerdown を受信してダイアログを
+    // 即座に閉じてしまう問題を防ぐため、閉じる操作は「閉じる」ボタン専用とする。
+    const bg = this.add.rectangle(0, 0, width, height, 0x000000, 0.4).setOrigin(0);
     this.overlayObjects.push(bg);
 
     // ダイアログ本体
@@ -1431,10 +1430,24 @@ export class OverlayScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   // ダイアログ表示開始：GameScene入力を無効化してからオーバーレイをリセット
+  //
+  // 問題: Phaser 3 マルチシーンでは同フレーム内に GameScene → OverlayScene の
+  //   順で入力処理が行われる。hitZone が発火してダイアログを生成した後、
+  //   同フレーム内で OverlayScene が同じ pointerdown イベントを受信し、
+  //   生成直後のインタラクティブオブジェクト（背景 bg など）が誤発火して
+  //   ダイアログが即座に閉じてしまう。
+  //
+  // 修正: beginOverlay() 時に OverlayScene 自身の入力を 1 フレーム無効化し、
+  //   生成直後の誤発火を防ぐ。次フレームで入力を再有効化する。
   private beginOverlay(): void {
     this.hideOverlay();
     const game = this.scene.get(SCENE_KEYS.GAME);
     if (game) game.input.enabled = false;
+    // 同フレーム内での誤発火を防ぐため OverlayScene 自身の入力も 1 フレーム無効化
+    this.input.enabled = false;
+    this.time.delayedCall(0, () => {
+      this.input.enabled = true;
+    });
   }
 
   // ボタン押下時にオーバーレイを閉じてからコールバックを実行する。
