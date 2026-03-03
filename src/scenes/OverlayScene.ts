@@ -96,6 +96,13 @@ export interface CityPropertyInfo {
   ownerColor: number | null;        // 所有者コマ色（null = 未所有）
 }
 
+export interface PlayerStatusData {
+  players: Player[];
+  properties: Property[];
+  currentYear: number;
+  onClose: () => void;
+}
+
 export interface CityInfoData {
   cityName: string;
   regionName: string;
@@ -152,6 +159,9 @@ export class OverlayScene extends Phaser.Scene {
     });
     this.events.on('show_city_info', (data: CityInfoData) => {
       this.showCityInfo(data);
+    });
+    this.events.on('show_player_status', (data: PlayerStatusData) => {
+      this.showPlayerStatus(data);
     });
   }
 
@@ -1422,6 +1432,142 @@ export class OverlayScene extends Phaser.Scene {
     closeBg.on('pointerdown', () => {
       this.closeOverlay(() => data.onClose());
     });
+    this.overlayObjects.push(closeBg, closeLabel);
+  }
+
+  // ──────────────────────────────────────
+  // 全プレイヤー状況ダイアログ
+  // ──────────────────────────────────────
+
+  showPlayerStatus(data: PlayerStatusData): void {
+    this.beginOverlay();
+
+    const { width, height } = this.scale;
+    const cx = width / 2;
+    const cy = height / 2;
+
+    const PAWN_COLORS = [0xe74c3c, 0x3498db, 0x2ecc71, 0xf39c12];
+    const RANK_COLORS = [0xffd700, 0xc0c0c0, 0xcd7f32, 0x888888];
+
+    const panelH = Math.min(140 + data.players.length * 72, 500);
+
+    // 半透明背景
+    const bg = this.add.rectangle(0, 0, width, height, 0x000000, 0.55).setOrigin(0);
+    this.overlayObjects.push(bg);
+
+    // ダイアログ本体
+    const panel = this.add.rectangle(cx, cy, 560, panelH, 0x0d1b3e).setOrigin(0.5);
+    panel.setStrokeStyle(3, 0xffd700);
+    this.overlayObjects.push(panel);
+
+    // タイトル
+    const titleBg = this.add.rectangle(cx, cy - panelH / 2 + 26, 560, 52, 0x1a3a6a).setOrigin(0.5);
+    this.overlayObjects.push(titleBg);
+    const title = this.add.text(cx, cy - panelH / 2 + 26, `${data.currentYear}年目 プレイヤー状況`, {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: FONTS.SIZE.LG,
+      color: '#ffd700',
+      fontStyle: 'bold',
+    }).setOrigin(0.5);
+    this.overlayObjects.push(title);
+
+    // 総資産順でソート（コピーして元の順序を保持）
+    const sorted = [...data.players]
+      .map((p) => {
+        const ownedCount = data.properties.filter((pr) => pr.ownerId === p.id).length;
+        return { player: p, ownedCount };
+      })
+      .sort((a, b) => b.player.totalAssets - a.player.totalAssets);
+
+    const listStartY = cy - panelH / 2 + 72;
+    const COL_RANK = cx - 240;
+    const COL_NAME = cx - 195;
+    const COL_MONEY = cx + 20;
+    const COL_PROPS = cx + 130;
+    const COL_ASSETS = cx + 230;
+
+    // ヘッダー
+    const headerY = listStartY;
+    [['順位', COL_RANK], ['名前', COL_NAME], ['所持金', COL_MONEY], ['物件数', COL_PROPS], ['総資産', COL_ASSETS]].forEach(([label, x]) => {
+      const t = this.add.text(x as number, headerY, label as string, {
+        fontFamily: FONTS.PRIMARY,
+        fontSize: 11,
+        color: '#aabbcc',
+      }).setOrigin(0.5, 0.5);
+      this.overlayObjects.push(t);
+    });
+
+    sorted.forEach(({ player, ownedCount }, idx) => {
+      const rowY = listStartY + 28 + idx * 60;
+      const rankNum = idx + 1;
+      const pawnColorIdx = data.players.findIndex((p) => p.id === player.id) % PAWN_COLORS.length;
+      const rankColor = '#' + (RANK_COLORS[idx] ?? 0x888888).toString(16).padStart(6, '0');
+
+      // 行背景
+      const rowBg = this.add.rectangle(cx, rowY, 520, 48, idx % 2 === 0 ? 0x152a4e : 0x1a3055).setOrigin(0.5);
+      this.overlayObjects.push(rowBg);
+
+      // 順位
+      const rankText = this.add.text(COL_RANK, rowY, `${rankNum}位`, {
+        fontFamily: FONTS.PRIMARY,
+        fontSize: 15,
+        color: rankColor,
+        fontStyle: 'bold',
+      }).setOrigin(0.5);
+      this.overlayObjects.push(rankText);
+
+      // カラードット + 名前
+      const dot = this.add.circle(COL_NAME - 16, rowY, 7, PAWN_COLORS[pawnColorIdx]);
+      this.overlayObjects.push(dot);
+      const nameSuffix = player.bombeeType !== 'none' ? ' 👺' : '';
+      const nameText = this.add.text(COL_NAME, rowY, `${player.name}${nameSuffix}`, {
+        fontFamily: FONTS.PRIMARY,
+        fontSize: 14,
+        color: '#ffffff',
+        fontStyle: 'bold',
+      }).setOrigin(0, 0.5);
+      this.overlayObjects.push(nameText);
+
+      // 所持金
+      const moneyColor = player.money < 0 ? '#ff4444' : '#ccffcc';
+      const moneyText = this.add.text(COL_MONEY, rowY, formatManEn(player.money), {
+        fontFamily: FONTS.PRIMARY,
+        fontSize: 13,
+        color: moneyColor,
+      }).setOrigin(0.5);
+      this.overlayObjects.push(moneyText);
+
+      // 物件数
+      const propsText = this.add.text(COL_PROPS, rowY, `${ownedCount}件`, {
+        fontFamily: FONTS.PRIMARY,
+        fontSize: 13,
+        color: '#aaccff',
+      }).setOrigin(0.5);
+      this.overlayObjects.push(propsText);
+
+      // 総資産
+      const assetsText = this.add.text(COL_ASSETS, rowY, formatManEn(player.totalAssets), {
+        fontFamily: FONTS.PRIMARY,
+        fontSize: 14,
+        color: '#' + (RANK_COLORS[idx] ?? 0x888888).toString(16).padStart(6, '0'),
+        fontStyle: 'bold',
+      }).setOrigin(0.5);
+      this.overlayObjects.push(assetsText);
+    });
+
+    // 閉じるボタン
+    const closeBg = this.add.rectangle(cx, cy + panelH / 2 - 26, 160, 40, COLORS.PRIMARY)
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true });
+    const closeLabel = this.add.text(cx, cy + panelH / 2 - 26, '閉じる', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: FONTS.SIZE.SM,
+      color: '#ffffff',
+      fontStyle: 'bold',
+    }).setOrigin(0.5).setDepth(1);
+    closeBg.on('pointerover', () => closeBg.setFillStyle(0xcc0000));
+    closeBg.on('pointerout', () => closeBg.setFillStyle(COLORS.PRIMARY));
+    closeBg.on('pointerdown', () => this.closeOverlay(() => data.onClose()));
     this.overlayObjects.push(closeBg, closeLabel);
   }
 

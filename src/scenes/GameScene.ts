@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { SCENE_KEYS, COLORS, FONTS, ANIMATION, SHOP_CITY_IDS, GAME_CONFIG, LAYOUT } from '../config';
+import { SCENE_KEYS, COLORS, FONTS, ANIMATION, GAME_CONFIG, LAYOUT } from '../config';
 import type { GameConfig, GameState, Player, Position, GameEvent } from '../types';
 import type { City, Route } from '../types';
 import type { Card } from '../types';
@@ -11,15 +11,12 @@ import { EventManager } from '../game/EventManager';
 import { CpuManager } from '../game/CpuManager';
 import type { RouteChoice } from '../game/CpuManager';
 import { DestinationManager } from '../game/DestinationManager';
-import { LocalStorageSaveManager } from '../save/LocalStorageSaveManager';
 import type { MapArea } from '../utils/mapUtils';
 import { rollDice } from '../utils/random';
 import { formatManEn } from '../utils/format';
 import type { OverlayScene, PropertySelectData, BankruptcyData, CityInfoData } from './OverlayScene';
 
-const MAP_AREA: MapArea = { x: 0, y: LAYOUT.TOPBAR_H, width: 1280, height: 540 };
-const HUD_Y = LAYOUT.HUD_Y;
-const ACTION_X = LAYOUT.ACTION_X;
+const MAP_AREA: MapArea = { x: 0, y: LAYOUT.TOPBAR_H, width: 1280, height: 648 };
 const CITY_DOT_RADIUS = 4;
 const PAWN_RADIUS = 11;
 
@@ -67,8 +64,6 @@ const ROUTE_TYPE_NAMES: Record<string, string> = {
 
 const PAWN_COLORS = [0xe74c3c, 0x3498db, 0x2ecc71, 0xf39c12];
 
-// 各プレイヤーのステータステキスト数（名前・所持金・総資産・ボンビー・手札枚数）
-const TEXTS_PER_PLAYER = 5;
 
 export class GameScene extends Phaser.Scene {
   private boardManager!: BoardManager;
@@ -78,26 +73,26 @@ export class GameScene extends Phaser.Scene {
   private eventManager!: EventManager;
   private cpuManager!: CpuManager;
   private destinationManager!: DestinationManager;
-  private saveManager!: LocalStorageSaveManager;
   private gameState!: GameState;
 
   // コマ（Container で円＋ラベルを一体化）
   private pawnContainers: Phaser.GameObjects.Container[] = [];
-  // 右パネルのテキスト群
-  private statusTexts: Phaser.GameObjects.Text[] = [];
-  private phaseText!: Phaser.GameObjects.Text;
-  private diceResultText!: Phaser.GameObjects.Text;
+  // 上部トップバーのUI要素
+  private topBarPlayerDot!: Phaser.GameObjects.Arc;
+  private topBarPlayerName!: Phaser.GameObjects.Text;
+  private topBarCurrentCity!: Phaser.GameObjects.Text;
+  private topBarDestInfo!: Phaser.GameObjects.Text;
+  private topBarMoney!: Phaser.GameObjects.Text;
+  private topBarYear!: Phaser.GameObjects.Text;
+  private topBarMonth!: Phaser.GameObjects.Text;
+  // アクションパネルのボタン
   private diceButton!: Phaser.GameObjects.Rectangle;
   private diceButtonLabel!: Phaser.GameObjects.Text;
-  private destinationText!: Phaser.GameObjects.Text;
-  private yearMonthText!: Phaser.GameObjects.Text;
 
   // マップマーカー
   private destinationMarker: Phaser.GameObjects.Container | null = null;
   private bombeeMarker: Phaser.GameObjects.Container | null = null;
   private propertyDotContainers: Phaser.GameObjects.Container[] = [];
-  // 下部HUDのプレイヤーカード背景（ハイライト更新に使用）
-  private hudPlayerBgs: Phaser.GameObjects.Rectangle[] = [];
   // 分岐選択UI（表示中のもの）
   private junctionUI: Phaser.GameObjects.Container | null = null;
   // カードドロー済みフラグ（1移動につき1枚まで）
@@ -126,7 +121,6 @@ export class GameScene extends Phaser.Scene {
     this.cardManager = new CardManager();
     this.bombeeManager = new BombeeManager();
     this.eventManager = new EventManager();
-    this.saveManager = new LocalStorageSaveManager();
 
     const citiesData = this.cache.json.get('cities') as City[];
     const routesData = this.cache.json.get('routes') as Route[];
@@ -163,7 +157,7 @@ export class GameScene extends Phaser.Scene {
     this.drawMap();
 
     this.createTopBar();
-    this.createBottomHUD();
+    this.createActionPanel();
     this.createPawns();
     this.updateMapMarkers();
 
@@ -352,45 +346,87 @@ export class GameScene extends Phaser.Scene {
   private createTopBar(): void {
     const { width } = this.scale;
     const h = LAYOUT.TOPBAR_H;
-    const cy = h / 2;
 
-    // 背景：濃い紺
-    this.add.rectangle(0, 0, width, h, COLORS.HUD_BG).setOrigin(0);
+    // 背景：濃い紺（青グラデーション）
+    const bg = this.add.rectangle(0, 0, width, h, COLORS.HUD_BG).setOrigin(0);
+    void bg;
     // 下部ゴールドライン
     this.add.rectangle(0, h - 2, width, 2, COLORS.GOLD).setOrigin(0);
 
-    // 年月テキスト（左）
-    this.yearMonthText = this.add
-      .text(15, cy, '', {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: 16,
-        color: '#ffffff',
-        fontStyle: 'bold',
-        stroke: '#000000',
-        strokeThickness: 2,
-      })
-      .setOrigin(0, 0.5);
+    const row1Y = 18; // 上行Y
+    const row2Y = 50; // 下行Y
 
-    // 目的地テキスト（中央）
-    this.destinationText = this.add
-      .text(width / 2, cy, '', {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: 17,
-        color: '#' + COLORS.GOLD.toString(16).padStart(6, '0'),
-        fontStyle: 'bold',
-        stroke: '#000000',
-        strokeThickness: 2,
-      })
-      .setOrigin(0.5);
+    // プレイヤー色丸
+    this.topBarPlayerDot = this.add.circle(16, h / 2, 10, PAWN_COLORS[0]);
 
-    // タイトルへボタン（右端）
+    // プレイヤー名（左）
+    this.topBarPlayerName = this.add.text(34, row1Y, '', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: 15,
+      color: '#ffffff',
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 2,
+    }).setOrigin(0, 0.5);
+
+    // 現在地（左下）
+    this.topBarCurrentCity = this.add.text(34, row2Y, '', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: 12,
+      color: '#ccddff',
+    }).setOrigin(0, 0.5);
+
+    // 目的地情報（中央）
+    this.topBarDestInfo = this.add.text(width / 2, h / 2, '', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: 14,
+      color: '#' + COLORS.GOLD.toString(16).padStart(6, '0'),
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 2,
+      align: 'center',
+    }).setOrigin(0.5);
+
+    // 所持金テキスト（右寄り）
+    this.topBarMoney = this.add.text(width - 240, row1Y, '', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: 16,
+      color: '#ffffff',
+      fontStyle: 'bold',
+    }).setOrigin(1, 0.5);
+
+    // N年目テキスト
+    this.topBarYear = this.add.text(width - 100, row1Y, '', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: 13,
+      color: '#aaccff',
+    }).setOrigin(0.5, 0.5);
+
+    // 大きい月数字（右端）
+    this.topBarMonth = this.add.text(width - 60, h / 2, '', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: 44,
+      color: '#ffffff',
+      fontStyle: 'bold',
+      stroke: '#000044',
+      strokeThickness: 3,
+    }).setOrigin(0.5);
+
+    // 月ラベル（右端小）
+    this.add.text(width - 30, row2Y, '月', {
+      fontFamily: FONTS.PRIMARY,
+      fontSize: 13,
+      color: '#aaccff',
+    }).setOrigin(0, 1);
+
+    // タイトルへボタン（右端最小）
     this.add
-      .text(width - 12, cy, 'タイトルへ', {
+      .text(width - 4, 4, 'タイトルへ', {
         fontFamily: FONTS.PRIMARY,
-        fontSize: 11,
-        color: '#aaaaaa',
+        fontSize: 9,
+        color: '#667788',
       })
-      .setOrigin(1, 0.5)
+      .setOrigin(1, 0)
       .setInteractive({ useHandCursor: true })
       .on('pointerdown', () => this.scene.start(SCENE_KEYS.TITLE));
 
@@ -398,200 +434,90 @@ export class GameScene extends Phaser.Scene {
   }
 
   /**
-   * 下部HUDを構築する。
-   * プレイヤーカード4枚（x:0~960）＋アクションゾーン（x:960~1280）
+   * 左下アクションパネルを構築する（マップ上にオーバーレイ）。
+   * サイコロ・カード・その他 の3ボタン構成。
    */
-  private createBottomHUD(): void {
-    const { width } = this.scale;
+  private createActionPanel(): void {
+    const { x, y, w } = LAYOUT.ACTION_PANEL;
+    const BTN_H = 45;
+    const BTN_GAP = 6;
 
-    // HUD背景
-    this.add.rectangle(0, HUD_Y, width, LAYOUT.HUD_H, COLORS.HUD_BG).setOrigin(0);
-    // 上部ゴールドライン
-    this.add.rectangle(0, HUD_Y, width, 2, COLORS.GOLD).setOrigin(0);
+    // パネル背景（半透明）
+    const panelBg = this.add.rectangle(x, y, w, BTN_H * 3 + BTN_GAP * 4, 0x000033, 0.72)
+      .setOrigin(0)
+      .setDepth(20);
+    // パネル外枠
+    panelBg.setStrokeStyle(1, 0x334466);
 
-    const CARD_W = 240;
+    const cx = x + w / 2;
 
-    // ── プレイヤーカード（4枚） ──
-    this.gameState.players.forEach((player, i) => {
-      const cardX = i * CARD_W;
-
-      // カード背景矩形
-      const bg = this.add
-        .rectangle(cardX, HUD_Y, CARD_W - 2, LAYOUT.HUD_H, COLORS.PANEL_DARK)
-        .setOrigin(0);
-      this.hudPlayerBgs.push(bg);
-
-      // 左縁ストライプ（プレイヤーカラー）
-      this.add.rectangle(cardX, HUD_Y, 4, LAYOUT.HUD_H, PAWN_COLORS[i]).setOrigin(0);
-
-      // ランクバッジ用（円、後で updatePlayerPanel で数字を更新）
-      const rankBadge = this.add
-        .circle(cardX + CARD_W - 18, HUD_Y + 18, 14, COLORS.GOLD)
-        .setDepth(1);
-      const rankText = this.add
-        .text(cardX + CARD_W - 18, HUD_Y + 18, '1', {
-          fontFamily: FONTS.PRIMARY,
-          fontSize: 12,
-          color: '#000000',
-          fontStyle: 'bold',
-        })
-        .setOrigin(0.5)
-        .setDepth(2);
-      // rankBadge と rankText はアニメート不要なので statusTexts に含めず別管理
-      // ただし更新のため後の updatePlayerPanel で再描画する方式に
-      void rankBadge; void rankText; // 現状は初期値表示のみ
-
-      // 名前テキスト
-      const nameText = this.add.text(cardX + 10, HUD_Y + 8, player.name, {
+    // ── サイコロボタン ──
+    const diceY = y + BTN_GAP + BTN_H / 2;
+    this.diceButton = this.add
+      .rectangle(cx, diceY, w - 8, BTN_H, COLORS.PRIMARY)
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true })
+      .setDepth(21);
+    this.diceButtonLabel = this.add
+      .text(cx, diceY, '🎲 サイコロ', {
         fontFamily: FONTS.PRIMARY,
-        fontSize: 13,
-        color: '#' + PAWN_COLORS[i].toString(16).padStart(6, '0'),
-        fontStyle: 'bold',
-        stroke: '#000000',
-        strokeThickness: 1,
-      });
-
-      // 所持金テキスト
-      const moneyText = this.add.text(cardX + 10, HUD_Y + 34, `所持金 ${formatManEn(player.money)}`, {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: 11,
+        fontSize: 16,
         color: '#ffffff',
-      });
-
-      // 総資産テキスト
-      const assetText = this.add.text(cardX + 10, HUD_Y + 54, `総資産 ${formatManEn(player.totalAssets)}`, {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: 13,
-        color: '#' + COLORS.GOLD.toString(16).padStart(6, '0'),
         fontStyle: 'bold',
-      });
-
-      // ボンビーテキスト
-      const bombeeText = this.add.text(cardX + 10, HUD_Y + 78, this.getBombeeLabel(player), {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: 10,
-        color: '#ff4444',
-      });
-
-      // 手札枚数テキスト（右下）
-      const cardCountText = this.add.text(cardX + CARD_W - 10, HUD_Y + LAYOUT.HUD_H - 14,
-        `🃏 ${player.hand.length}枚`, {
-          fontFamily: FONTS.PRIMARY,
-          fontSize: 10,
-          color: '#aaaaaa',
-        }).setOrigin(1, 1);
-
-      // 区切り縦線
-      if (i < this.gameState.players.length - 1) {
-        const gr = this.add.graphics();
-        gr.lineStyle(1, 0x334466, 0.8);
-        gr.beginPath();
-        gr.moveTo((i + 1) * CARD_W - 1, HUD_Y + 8);
-        gr.lineTo((i + 1) * CARD_W - 1, HUD_Y + LAYOUT.HUD_H - 8);
-        gr.strokePath();
-      }
-
-      this.statusTexts.push(nameText, moneyText, assetText, bombeeText, cardCountText);
+      })
+      .setOrigin(0.5)
+      .setDepth(22);
+    this.diceButton.on('pointerover', () => this.diceButton.setFillStyle(0xcc0000));
+    this.diceButton.on('pointerout', () => {
+      if (this.diceButton.input?.enabled) this.diceButton.setFillStyle(COLORS.PRIMARY);
     });
+    this.diceButton.on('pointerdown', () => this.onDiceButtonClick());
 
-    // ── アクションゾーン（x: ACTION_X ~ 1280） ──
-    const actCX = ACTION_X + (width - ACTION_X) / 2;
-
-    // 縦区切りライン
-    const actGr = this.add.graphics();
-    actGr.lineStyle(1, 0x334466, 0.8);
-    actGr.beginPath();
-    actGr.moveTo(ACTION_X, HUD_Y + 8);
-    actGr.lineTo(ACTION_X, HUD_Y + LAYOUT.HUD_H - 8);
-    actGr.strokePath();
-
-    // フェーズテキスト
-    this.phaseText = this.add
-      .text(actCX, HUD_Y + 14, '', {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: 12,
-        color: '#cccccc',
-        align: 'center',
-      })
-      .setOrigin(0.5, 0);
-
-    // サイコロ結果テキスト
-    this.diceResultText = this.add
-      .text(actCX, HUD_Y + 32, '', {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: FONTS.SIZE.LG,
-        color: '#' + COLORS.SECONDARY.toString(16).padStart(6, '0'),
-        fontStyle: 'bold',
-        align: 'center',
-      })
-      .setOrigin(0.5, 0);
-
-    // カードを見るボタン
+    // ── カードボタン ──
+    const cardY = diceY + BTN_H + BTN_GAP;
     const cardBtn = this.add
-      .rectangle(actCX, HUD_Y + 76, 200, 30, 0x8e44ad)
+      .rectangle(cx, cardY, w - 8, BTN_H, 0x8e44ad)
       .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true });
+      .setInteractive({ useHandCursor: true })
+      .setDepth(21);
     this.add
-      .text(actCX, HUD_Y + 76, '🃏 カードを見る', {
+      .text(cx, cardY, '🃏 カード', {
         fontFamily: FONTS.PRIMARY,
-        fontSize: FONTS.SIZE.SM,
+        fontSize: 15,
         color: '#ffffff',
       })
       .setOrigin(0.5)
-      .setDepth(1);
+      .setDepth(22);
     cardBtn.on('pointerover', () => cardBtn.setFillStyle(0x7d3c98));
     cardBtn.on('pointerout', () => cardBtn.setFillStyle(0x8e44ad));
     cardBtn.on('pointerdown', () => this.onCardButtonClick());
 
-    // サイコロボタン
-    this.diceButton = this.add
-      .rectangle(actCX, HUD_Y + 112, 240, 46, COLORS.PRIMARY)
+    // ── その他ボタン（全プレイヤー状況） ──
+    const otherY = cardY + BTN_H + BTN_GAP;
+    const otherBtn = this.add
+      .rectangle(cx, otherY, w - 8, BTN_H, 0x555566)
       .setOrigin(0.5)
-      .setInteractive({ useHandCursor: true });
-    this.diceButtonLabel = this.add
-      .text(actCX, HUD_Y + 112, '🎲 サイコロを振る', {
-        fontFamily: FONTS.PRIMARY,
-        fontSize: FONTS.SIZE.SM,
-        color: '#ffffff',
-        fontStyle: 'bold',
-      })
-      .setOrigin(0.5)
-      .setDepth(1);
-    this.diceButton.on('pointerover', () => this.diceButton.setFillStyle(0xcc0000));
-    this.diceButton.on('pointerout', () => this.diceButton.setFillStyle(COLORS.PRIMARY));
-    this.diceButton.on('pointerdown', () => this.onDiceButtonClick());
-
-    // セーブボタン（右下隅・小さく）
-    const saveBtn = this.add
-      .rectangle(width - 8, HUD_Y + LAYOUT.HUD_H - 8, 80, 20, 0x27ae60)
-      .setOrigin(1, 1)
-      .setInteractive({ useHandCursor: true });
+      .setInteractive({ useHandCursor: true })
+      .setDepth(21);
     this.add
-      .text(width - 8, HUD_Y + LAYOUT.HUD_H - 8, 'セーブ', {
+      .text(cx, otherY, '📊 その他', {
         fontFamily: FONTS.PRIMARY,
-        fontSize: 11,
-        color: '#ffffff',
+        fontSize: 15,
+        color: '#cccccc',
       })
-      .setOrigin(1, 1)
-      .setDepth(1);
-    saveBtn.on('pointerover', () => saveBtn.setFillStyle(0x219a52));
-    saveBtn.on('pointerout', () => saveBtn.setFillStyle(0x27ae60));
-    saveBtn.on('pointerdown', () => this.saveGame());
-
-    this.updatePhaseText();
+      .setOrigin(0.5)
+      .setDepth(22);
+    otherBtn.on('pointerover', () => otherBtn.setFillStyle(0x777788));
+    otherBtn.on('pointerout', () => otherBtn.setFillStyle(0x555566));
+    otherBtn.on('pointerdown', () => this.onOtherButtonClick());
   }
 
-  private getBombeeLabel(player: Player): string {
-    if (player.bombeeType === 'none') return '';
-    return `👺 ${this.bombeeManager.getBombeeName(player.bombeeType)}`;
-  }
-
-  private saveGame(): void {
-    const ok = this.saveManager.save('slot_1', this.gameState);
+  private onOtherButtonClick(): void {
     const overlayScene = this.overlayScene;
-    overlayScene.events.emit('show_event', {
-      title: ok ? 'セーブ完了' : 'セーブ失敗',
-      description: ok ? 'スロット1にセーブしました' : 'セーブに失敗しました',
+    overlayScene.events.emit('show_player_status', {
+      players: this.gameState.players,
+      properties: this.gameState.properties,
+      currentYear: this.gameState.currentYear,
       onClose: () => {},
     });
   }
@@ -937,7 +863,7 @@ export class GameScene extends Phaser.Scene {
       };
     }
     const result = Math.floor((rollDice() + bonus) * diceMultiplier);
-    this.diceResultText.setText(`🎲 ${result}`);
+    this.diceButtonLabel.setText(`🎲 ${result}`);
     this.setDiceButtonEnabled(false);
     this.gameState = { ...this.gameState, phase: 'moving' };
 
@@ -948,13 +874,13 @@ export class GameScene extends Phaser.Scene {
       repeat: 8,
       callback: () => {
         const tmp = rollDice();
-        this.diceResultText.setText(`🎲 ${tmp}`);
+        this.diceButtonLabel.setText(`🎲 ${tmp}`);
         if (Date.now() - startTime >= animDuration) rollAnim.remove();
       },
     });
 
     this.time.delayedCall(animDuration, () => {
-      this.diceResultText.setText(`🎲 ${result}`);
+      this.diceButtonLabel.setText(`🎲 ${result}`);
       this.movePawnStepByStep(this.gameState.currentPlayerIndex, result, () => {
         const player = this.gameState.players[this.gameState.currentPlayerIndex];
         this.onPlayerArrived(this.gameState.currentPlayerIndex, player.position.cityId);
@@ -1192,32 +1118,84 @@ export class GameScene extends Phaser.Scene {
         onClose: () => {
           this.updateTopBar();
           this.updatePlayerPanel();
-          this.checkShopAndProperty(playerIndex, cityId);
+          this.handleTileEffect(playerIndex, cityId);
         },
       });
       return;
     }
 
-    this.checkShopAndProperty(playerIndex, cityId);
+    this.handleTileEffect(playerIndex, cityId);
   }
 
   /**
-   * カード売り場チェック → 物件チェック → ターン終了
+   * マス効果処理：駅タイプに応じた処理を行い、必要なら物件チェックへ進む。
+   * card_shop → カード売り場
+   * plus → プラス駅（加算）
+   * minus → マイナス駅（減算）
+   * normal（省略時）→ 物件チェック
    */
-  private checkShopAndProperty(playerIndex: number, cityId: string): void {
+  private handleTileEffect(playerIndex: number, cityId: string): void {
     const player = this.gameState.players[playerIndex];
+    const city = this.boardManager.getCityById(cityId);
+    const stationType = city?.stationType ?? 'normal';
 
-    if (SHOP_CITY_IDS.includes(cityId)) {
-      if (player.type === 'human') {
-        this.openCardShop(playerIndex, cityId);
-        return;
+    switch (stationType) {
+      case 'card_shop': {
+        if (player.type === 'human') {
+          this.openCardShop(playerIndex, cityId);
+        } else {
+          this.cpuVisitShop(playerIndex, cityId);
+        }
+        break;
       }
-      // CPU: 余力があれば最大2枚まで購入
-      this.cpuVisitShop(playerIndex, cityId);
-      return;
+      case 'plus': {
+        const gain = this.calcPlusMinus('plus');
+        this.gameState = {
+          ...this.gameState,
+          players: this.gameState.players.map((p, i) =>
+            i === playerIndex ? { ...p, money: p.money + gain, totalAssets: p.totalAssets + gain } : p,
+          ),
+        };
+        this.updatePlayerPanel();
+        const overlayScenePlus = this.overlayScene;
+        overlayScenePlus.events.emit('show_event', {
+          title: 'プラス駅',
+          description: `${player.name} が\n${formatManEn(gain)} もらいました！`,
+          onClose: () => this.endTurn(),
+        });
+        break;
+      }
+      case 'minus': {
+        const loss = this.calcPlusMinus('minus');
+        this.gameState = {
+          ...this.gameState,
+          players: this.gameState.players.map((p, i) =>
+            i === playerIndex ? { ...p, money: p.money - loss, totalAssets: p.totalAssets - loss } : p,
+          ),
+        };
+        this.updatePlayerPanel();
+        const overlaySceneMinus = this.overlayScene;
+        overlaySceneMinus.events.emit('show_event', {
+          title: 'マイナス駅',
+          description: `${player.name} が\n${formatManEn(loss)} 失いました...`,
+          onClose: () => this.endTurn(),
+        });
+        break;
+      }
+      default: {
+        // normal: 物件チェック
+        this.checkPropertyAndEndTurn(playerIndex, cityId);
+        break;
+      }
     }
+  }
 
-    this.checkPropertyAndEndTurn(playerIndex, cityId);
+  /**
+   * プラス/マイナス駅の金額計算（年数インフレあり）
+   */
+  private calcPlusMinus(dir: 'plus' | 'minus'): number {
+    const base = 500 * (1 + (this.gameState.currentYear - 1) * 0.2);
+    return Math.round(base * (dir === 'minus' ? 0.8 : 1));
   }
 
   /**
@@ -1348,45 +1326,6 @@ export class GameScene extends Phaser.Scene {
         },
         onSkip: () => this.endTurn(),
       });
-      return;
-    }
-
-    const othersProperty = cityProperties.find(
-      (p) => p.ownerId !== null && p.ownerId !== player.id,
-    );
-    if (othersProperty) {
-      const fee = this.propertyManager.getLandFee(othersProperty);
-      const ownerId = othersProperty.ownerId!;
-
-      // 支払い確定処理（破産解決後またはそのまま）
-      const doPay = (): void => {
-        // 全額支払い（マイナスになる場合もそのまま）
-        this.gameState = {
-          ...this.gameState,
-          players: this.gameState.players.map((p) => {
-            if (p.id === player.id) return { ...p, money: p.money - fee };
-            if (p.id === ownerId) return { ...p, money: p.money + fee };
-            return p;
-          }),
-        };
-        this.gameState = this.propertyManager.recalcTotalAssets(this.gameState);
-        const owner = this.gameState.players.find((p) => p.id === ownerId);
-        const overlayScene = this.overlayScene;
-        overlayScene.events.emit('show_event', {
-          title: '地代支払い',
-          description: `${player.name} が ${owner?.name ?? '?'} に\n${formatManEn(fee)} 支払いました`,
-          onClose: () => {
-            this.updatePlayerPanel();
-            this.endTurn();
-          },
-        });
-      };
-
-      if (player.money < fee) {
-        this.handleBankruptcy(player.id, fee, doPay);
-      } else {
-        doPay();
-      }
       return;
     }
 
@@ -1811,10 +1750,35 @@ export class GameScene extends Phaser.Scene {
   // ──────────────────────────────────────
 
   private updateTopBar(): void {
-    const { currentYear, currentMonth } = this.gameState;
-    this.yearMonthText.setText(`${currentYear}年目 ${currentMonth}月`);
+    const { currentYear, currentMonth, currentPlayerIndex } = this.gameState;
+    const player = this.gameState.players[currentPlayerIndex];
     const dest = this.boardManager.getCityById(this.gameState.destinationCityId);
-    this.destinationText.setText(`★ 目的地：${dest?.name ?? '???'}`);
+    const currentCity = this.boardManager.getCityById(player.position.cityId);
+    const playerColorIdx = currentPlayerIndex % PAWN_COLORS.length;
+
+    // プレイヤー色丸
+    this.topBarPlayerDot.setFillStyle(PAWN_COLORS[playerColorIdx]);
+
+    // プレイヤー名（CPU表示付き）
+    const cpuLabel = player.type === 'cpu' ? ' (CPU)' : '';
+    this.topBarPlayerName.setText(`${player.name}${cpuLabel}`);
+
+    // 現在地
+    this.topBarCurrentCity.setText(currentCity?.name ?? '---');
+
+    // 目的地
+    this.topBarDestInfo.setText(`→ ${dest?.name ?? '???'}`);
+
+    // 所持金（赤=マイナス）
+    const moneyColor = player.money < 0 ? '#ff4444' : '#ffffff';
+    this.topBarMoney.setText(formatManEn(player.money)).setColor(moneyColor);
+
+    // 年目
+    this.topBarYear.setText(`${currentYear}年目`);
+
+    // 月（大きい数字）
+    this.topBarMonth.setText(`${currentMonth}`);
+
     this.updateMapMarkers();
   }
 
@@ -1894,63 +1858,13 @@ export class GameScene extends Phaser.Scene {
 
   private updatePhaseText(): void {
     const player = this.gameState.players[this.gameState.currentPlayerIndex];
-    this.phaseText.setText(`${player.name}のターン`);
     this.diceButtonLabel.setText(
-      player.type === 'cpu' ? `${player.name}（CPU）が考え中...` : 'サイコロを振る',
+      player.type === 'cpu' ? '考え中...' : '🎲 サイコロ',
     );
   }
 
   private updatePlayerPanel(): void {
-    // 総資産順でランクを計算
-    const rankMap = new Map<string, number>();
-    [...this.gameState.players]
-      .sort((a, b) => b.totalAssets - a.totalAssets)
-      .forEach((p, idx) => rankMap.set(p.id, idx + 1));
-
-    const RANK_COLORS = [COLORS.GOLD, COLORS.SILVER, COLORS.BRONZE, 0x888888];
-
-    this.gameState.players.forEach((player, i) => {
-      const nameIdx = i * TEXTS_PER_PLAYER + 0;
-      const moneyIdx = i * TEXTS_PER_PLAYER + 1;
-      const assetIdx = i * TEXTS_PER_PLAYER + 2;
-      const bombeeIdx = i * TEXTS_PER_PLAYER + 3;
-      const cardIdx = i * TEXTS_PER_PLAYER + 4;
-      const isActive = i === this.gameState.currentPlayerIndex;
-      const rank = rankMap.get(player.id) ?? i + 1;
-
-      // 現在プレイヤーのカードをハイライト
-      if (i < this.hudPlayerBgs.length) {
-        if (isActive) {
-          this.hudPlayerBgs[i].setFillStyle(0x2a3a5a);
-          this.hudPlayerBgs[i].setStrokeStyle(2, PAWN_COLORS[i]);
-        } else {
-          this.hudPlayerBgs[i].setFillStyle(COLORS.PANEL_DARK);
-          this.hudPlayerBgs[i].setStrokeStyle(0);
-        }
-      }
-
-      // 名前テキストにランク表示
-      if (nameIdx < this.statusTexts.length) {
-        const prefix = isActive ? '▶ ' : '';
-        const rankColor = '#' + (RANK_COLORS[rank - 1] ?? 0xaaaaaa).toString(16).padStart(6, '0');
-        this.statusTexts[nameIdx].setText(`${prefix}${rank}位 ${player.name}`);
-        this.statusTexts[nameIdx].setColor(rankColor);
-      }
-      if (moneyIdx < this.statusTexts.length) {
-        this.statusTexts[moneyIdx].setText(`所持金 ${formatManEn(player.money)}`);
-        this.statusTexts[moneyIdx].setColor(player.money < 0 ? '#ff4444' : '#ffffff');
-      }
-      if (assetIdx < this.statusTexts.length) {
-        this.statusTexts[assetIdx].setText(`総資産 ${formatManEn(player.totalAssets)}`);
-      }
-      if (bombeeIdx < this.statusTexts.length) {
-        this.statusTexts[bombeeIdx].setText(this.getBombeeLabel(player));
-      }
-      if (cardIdx < this.statusTexts.length) {
-        this.statusTexts[cardIdx].setText(`🃏 ${player.hand.length}枚`);
-      }
-    });
-    this.updateMapMarkers();
+    this.updateTopBar();
   }
 
   /** updateCardInfo は updatePlayerPanel に統合済み。後方互換のため残す */

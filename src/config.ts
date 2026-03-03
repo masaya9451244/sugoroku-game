@@ -83,10 +83,8 @@ export const SAVE_KEYS = {
 
 /** レイアウト定数 */
 export const LAYOUT = {
-  TOPBAR_H: 40,    // トップバー高さ
-  HUD_Y: 580,      // 下部HUD開始Y
-  HUD_H: 140,      // HUD高さ
-  ACTION_X: 960,   // アクションゾーン開始X（右320px分）
+  TOPBAR_H: 72,    // トップバー高さ（桃鉄スタイル）
+  ACTION_PANEL: { x: 10, y: 560, w: 175, h: 155 },  // 左下アクションパネル
 } as const;
 
 /** カード売り場がある主要都市 */

@@ -1,5 +1,7 @@
 export type RouteType = 'shinkansen' | 'local' | 'ferry';
 
+export type StationType = 'normal' | 'plus' | 'minus' | 'card_shop';
+
 export type SquareType =
   | 'property'    // 物件マス
   | 'card'        // カードマス
@@ -25,6 +27,7 @@ export interface City {
   region: RegionType;
   lat: number;
   lng: number;
+  stationType?: StationType;
 }
 
 export interface Square {
